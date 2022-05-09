@@ -1,0 +1,75 @@
+.main {
+  height: 100%;
+}
+
+.trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+
+   &:hover {
+     color: #1890ff;
+   }
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+  background: url("../../assets/logo-mini.svg") no-repeat;
+
+  &.large {
+    background: url("../../assets/logo.svg") no-repeat center;
+  }
+}
+
+.aside {
+  background: #ffffff;
+}
+
+.site-layout  {
+  .site-layout-background {
+    overflow-y: auto;
+    background: #fff;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .avatar {
+      margin-right: 16px;
+      display: flex;
+      height: 100%;
+      align-items: center;
+
+      .avatar-img {
+        margin-right: 10px;
+        cursor: pointer;
+      }
+
+      .user-info {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        padding: 15px 0px;
+
+        .name {
+          display: flex;
+          align-items: center;
+          height: 50%;
+        }
+
+        .company {
+          display: flex;
+          align-items: center;
+          height: 50%;
+        }
+      }
+    }
+  }
+}
+
