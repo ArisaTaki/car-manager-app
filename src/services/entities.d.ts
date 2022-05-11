@@ -57,7 +57,7 @@ export namespace ApiData {
       // 账户
       userName: string
       // 密码
-      passWord: string
+      password: string
       // 账户类别
       type: number
     }

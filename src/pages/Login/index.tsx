@@ -10,12 +10,13 @@ import styles from './style.module.scss';
 import routerPath from '@/router/router-path';
 import { ServicesApi } from '@/services/services-api';
 import { saveUser } from '@/utils/storageUtils';
+import { formatRole } from '@/utils/Role';
 
 const cx = classNames.bind(styles);
 
 const Login: React.FC = () => {
   const history = useHistory();
-  const [type, setType] = useState(1);
+  const [type, setType] = useState(0);
 
   const { login } = ServicesApi;
   const [form] = Form.useForm();
@@ -29,15 +30,13 @@ const Login: React.FC = () => {
     try {
       const { userName, passWord } = form.getFieldsValue();
       const checkResult = await formRef.current?.validateFields();
-      login({ userName, passWord, type }).then((res) => {
+      login({ userName, password: passWord, type }).then((res) => {
         const { data } = res;
         saveUser(data);
         message.success(`欢迎你，${data.userTitle}`);
         history.push(routerPath.Home);
       }).catch((err) => {
         // TODO login error events
-        message.error('something going wrong');
-        console.log(err);
       });
     } catch (err) {
       message.warning('账号和密码不能为空');
@@ -70,9 +69,9 @@ const Login: React.FC = () => {
       <Form.Item>
         <div className={cx('buttons')}>
           <Radio.Group onChange={onChange} value={type}>
-            <Radio value={0}>管理员</Radio>
-            <Radio value={1}>客服</Radio>
-            <Radio value={2}>经理</Radio>
+            <Radio value={0}>{formatRole(0)}</Radio>
+            <Radio value={1}>{formatRole(1)}</Radio>
+            <Radio value={2}>{formatRole(2)}</Radio>
           </Radio.Group>
           <Button
             type="primary"

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import {
-  Button, Dropdown, Menu, Modal, PageHeader, Space, Spin, Table,
+  Button, Dropdown, Menu, message, Modal, PageHeader, Space, Spin, Table,
 } from 'antd';
 import { DeleteFilled, DownOutlined, LoadingOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
@@ -13,6 +13,7 @@ import { ServicesApi } from '@/services/services-api';
 import { UserInfoDetails, UserInfoDetailsWithId } from '@/services/entities';
 import { getUser } from '@/utils/storageUtils';
 import UpdateOrAddUser from '@/pages/User/components/UpdateOrAddUser';
+import { formatRole } from '@/utils/Role';
 
 const cx = classNames.bind(styles);
 
@@ -38,22 +39,6 @@ const User: React.FC = () => {
   const [editData, setEditData] = useState<UserInfoDetails>();
   const [type, setType] = useState<number>();
 
-  const formatRole = (number: number) => {
-    switch (number) {
-      case 0:
-        return '管理员';
-        break;
-      case 1:
-        return '客服';
-        break;
-      case 2:
-        return '经理';
-        break;
-      default:
-        return '未选择';
-    }
-  };
-
   const onSearch = (value: string) => {
     if (value) {
       setKeyWord(value);
@@ -74,7 +59,7 @@ const User: React.FC = () => {
 
   const getUserListMethod = () => {
     SearchUsers({
-      pageSize: 10, pageIndex: 1, keyword, type,
+      pageSize: 10, pageIndex: 1, keyword: '', type: undefined,
     })
       .then((res) => {
         setLoading(false);
@@ -184,6 +169,7 @@ const User: React.FC = () => {
     setDelConfirmFlag(false);
     setLoading(true);
     DelUser({ userId: chooseIndex! }).then((res) => {
+      message.success(res.message);
       getUserListMethod();
     }).catch((err) => {
       setDelConfirmFlag(false);
@@ -216,7 +202,7 @@ const User: React.FC = () => {
   const resetAllData = () => {
     setLoading(true);
     setKeyWord('');
-    setType(-1);
+    setType(undefined);
     setPaginationData({ ...paginationData, current: 1, pageSize: 10 });
     getUserListMethod();
   };
@@ -285,19 +271,19 @@ const User: React.FC = () => {
                       key={0}
                       onClick={() => { findRoleUserList(0); }}
                     >
-                      管理员
+                      {formatRole(0)}
                     </Menu.Item>
                     <Menu.Item
                       key={1}
                       onClick={() => { findRoleUserList(1); }}
                     >
-                      客服
+                      {formatRole(1)}
                     </Menu.Item>
                     <Menu.Item
                       key={2}
                       onClick={() => { findRoleUserList(2); }}
                     >
-                      经理
+                      {formatRole(2)}
                     </Menu.Item>
                   </Menu>
                   )}

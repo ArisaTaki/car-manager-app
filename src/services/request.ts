@@ -1,10 +1,11 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { message } from 'antd';
 import { mockApiPath, onlineApiPath } from '@/constant/constants';
 import { deleteUser, getUser } from '@/utils/storageUtils';
 import { moveToSystemError403Page } from '@/helpers/history';
 
 if (process.env.NODE_ENV === 'development') {
-  axios.defaults.baseURL = mockApiPath;
+  axios.defaults.baseURL = onlineApiPath;
 }
 if (process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = onlineApiPath;
@@ -33,6 +34,9 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (res) => {
     if (res.status >= 200 && res.status < 300) {
+      if (res.data.code !== '200') {
+        message.error(res.data.message);
+      }
       return Promise.resolve(res);
     }
     return Promise.reject(res);
