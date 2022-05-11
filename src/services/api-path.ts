@@ -1,11 +1,10 @@
 const baseUrl = process.env.NODE_ENV === 'production' ? '' : '/mock';
 
 export const ApiPaths = {
-  login: '/user/login',
-  getUserInfo: '/user/user-info',
-  getCameraList: '/camera/categories',
-  updateAttachment: '/attachment/upload-file',
-  addBrand: '/brand/add',
-  EditBrand: '/brand/:brandId',
-  getBrandInfo: '/brand/:brandId',
+  login: '/api/user/login',
+  addUser: '/api/account/add',
+  delUser: '/api/account/delete',
+  getUserDetail: '/api/account/detail',
+  SearchUsers: '/api/account/list',
+  UpdateUser: '/api/account/update',
 };

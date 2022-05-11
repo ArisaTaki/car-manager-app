@@ -1,7 +1,7 @@
-import React, { createRef } from 'react';
+import React, { createRef, useState } from 'react';
 import {
   Button, Form, Input,
-  FormInstance, message,
+  FormInstance, message, Radio, RadioChangeEvent,
 } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -9,29 +9,31 @@ import classNames from 'classnames/bind';
 import styles from './style.module.scss';
 import routerPath from '@/router/router-path';
 import { ServicesApi } from '@/services/services-api';
-import { saveUser, saveUserInfo } from '@/utils/storageUtils';
+import { saveUser } from '@/utils/storageUtils';
 
 const cx = classNames.bind(styles);
 
 const Login: React.FC = () => {
   const history = useHistory();
+  const [type, setType] = useState(1);
 
-  const { login, getUserInfo } = ServicesApi;
+  const { login } = ServicesApi;
   const [form] = Form.useForm();
   const formRef = createRef<FormInstance>();
+
+  const onChange = (e:RadioChangeEvent) => {
+    setType(e.target.value);
+  };
 
   const handleToHomePage = async () => {
     try {
       const { userName, passWord } = form.getFieldsValue();
       const checkResult = await formRef.current?.validateFields();
-      login({ userName, passWord }).then((res) => {
+      login({ userName, passWord, type }).then((res) => {
         const { data } = res;
         saveUser(data);
-        getUserInfo().then((user) => {
-          saveUserInfo(user.data);
-          message.success(`欢迎你，${user.data.name}`);
-          history.push(routerPath.Home);
-        }).catch(() => {});
+        message.success(`欢迎你，${data.userTitle}`);
+        history.push(routerPath.Home);
       }).catch((err) => {
         // TODO login error events
         message.error('something going wrong');
@@ -67,6 +69,11 @@ const Login: React.FC = () => {
       </Form.Item>
       <Form.Item>
         <div className={cx('buttons')}>
+          <Radio.Group onChange={onChange} value={type}>
+            <Radio value={0}>管理员</Radio>
+            <Radio value={1}>客服</Radio>
+            <Radio value={2}>经理</Radio>
+          </Radio.Group>
           <Button
             type="primary"
             className={cx('login')}

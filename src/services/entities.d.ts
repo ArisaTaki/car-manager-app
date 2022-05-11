@@ -3,69 +3,51 @@ export interface BaseResponse<T = any> {
   message: string
   // 状态code：200 success。201 error，之后再细分
   code: string
+  successful: boolean
   data: T
 }
 
 export interface UserTokenKeyInfo {
-  //  token
-  access_token: string
-  // id
-  access_id: string
+  email: string;
+  phone: string;
+  token?: string;
+  type: number;
+  userId: number;
+  userName: string;
+  userTitle: string;
+}
+
+export interface UserInfoDetails {
+  createName: string;
+  createTime: string;
+  email: string;
+  phone: string;
+  type: number;
+  userName: string;
+  userTitle: string;
+  userId?: number;
+}
+
+export interface UserInfoDetailsWithId extends UserInfoDetails {
+  userId: number;
 }
 
 export interface UserInfo {
   // 头像
-  avatar: string
+  image: string
   // 昵称
-  name: string
-  // 公司名
-  companyName: string
+  username: string
 }
 
-export interface EthernetCardVO {
-  // IPv4 地址的整数表示
-  ipv4: number,
-  // MAC 地址的整数表示 (后 48 位)
-  mac: number,
-}
-
-export interface CameraInfo {
-  // 品牌
-  brand: string;
-  // 备注
-  description: string;
-  // 网卡信息
-  ethernetCards: EthernetCardVO[];
-  // 设备ID
-  id: number;
-  // 设备安装位置
-  location: string;
-  // 设备型号
-  modal: string;
-  // 视频标题
-  title: string;
-  // 镜头分类
-  type: string;
-}
-
-export interface CameraBrand {
-  // Id
-  brandId: string;
-  // 品牌
-  brand: string;
-  // 此品牌情况
-  description?: string;
-  // 图片URL
-  imageUrl?: string;
-}
-
-export interface BrandInfo {
-  // 品牌
-  brand: string;
-  // 此品牌情况
-  description?: string;
-  // 图片URL
-  imageUrl: string;
+export interface AddUserInfo {
+  createBy?: number,
+  createName?: string,
+  email?: string,
+  password: string,
+  phone?: string,
+  type: number,
+  userName: string,
+  userTitle: string
 }
 
 export namespace ApiData {
@@ -76,73 +58,63 @@ export namespace ApiData {
       userName: string
       // 密码
       passWord: string
+      // 账户类别
+      type: number
     }
     type ResponseData = BaseResponse<UserTokenKeyInfo>;
   }
 
-  // 用户基本信息
-  namespace GetUserInfo {
-    type ResponseData = BaseResponse<UserInfo>;
+  // 添加用户
+  namespace AddUser {
+    type Params = AddUserInfo;
+    type ResponseData = BaseResponse<number>;
   }
 
-  // 全部设备品牌列表
-  namespace GetAllCameraBrands {
-    interface ResponseData extends BaseResponse<ResponseData> {
-      brands: CameraBrand[]
-    }
-  }
-  // 上传
-  namespace UpdateAttachment {
+  // 删除用户
+  namespace DelUser {
     interface Params {
-      fileBinaryStream: string
+      userId: number
     }
 
-    interface ResponseData extends BaseResponse<ResponseData> {
-      // 添加URL （拟定）
-      imageUrl: string
-    }
-    type Response = BaseResponse<ResponseData>;
+    type ResponseData = BaseResponse;
   }
 
-  // 增加分类
-  namespace AddBrand {
+  // 获取用户详情
+  namespace GetUserDetail {
     interface Params {
-      // 品牌
-      brand: string;
-      // 备注
-      description?: string;
-      // 图片路径
-      imgUrl: string;
+      userId: number
     }
 
-    type Response = BaseResponse;
+    type ResponseData = BaseResponse<UserInfoDetails>;
   }
 
-  // 获取某一个类型的info数据
-  namespace GetBrandInfo {
+  // 分页查询用户列表
+  namespace SearchUsers {
     interface Params {
-      // Id
-      brandId: string;
-    }
-    interface ResponseData extends BaseResponse<ResponseData> {
-      brandInfo: BrandInfo
+      keyword?: string
+      pageIndex?: number,
+      pageSize?: number,
+      type?: number
     }
 
-    type Response = BaseResponse<ResponseData>;
+    export interface ResponseDataDetail {
+      list: UserInfoDetailsWithId[],
+      pages: number,
+      total: number,
+    }
+
+    type ResponseData = BaseResponse<ResponseDataDetail>;
   }
 
-  // 更改某个类型的info数据
-  namespace EditBrand {
+  // 更新用户信息
+  namespace UpdateUser {
     interface Params {
-      brandId: string;
-      // 品牌
-      brand: string;
-      // 备注
-      description?: string;
-      // 图片路径
-      imgUrl: string;
+      email?: string;
+      phone?: string;
+      userId: number;
+      userTitle: string;
     }
 
-    type Response = BaseResponse;
+    type ResponseData = BaseResponse;
   }
 }

@@ -1,0 +1,14 @@
+{
+  "code": "200",
+  "message": "操作成功",
+  "data": {
+    "userId": 1,
+    "userName": "admin",
+    "userTitle": "ElainaBot",
+    "email": "1228699876@qq.com",
+    "phone": "13109870987",
+    "type": 0,
+    "token": null
+  },
+  "successful": true
+}

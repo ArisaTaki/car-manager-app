@@ -15,13 +15,30 @@
 }
 
 .logo {
-  height: 32px;
-  margin: 16px;
-  background: rgba(255, 255, 255, 0.3);
-  background: url("../../assets/logo-mini.svg") no-repeat;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  &.large {
-    background: url("../../assets/logo.svg") no-repeat center;
+  i {
+    width: 44px;
+    height: 44px;
+    background: url("../../assets/E-logo.svg") no-repeat;
+    display: block;
+    background-size: cover;
+  }
+
+  span {
+    color: black;
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: .1em;
+    text-align: center;
+
+    &.collapsed {
+      display: none;
+    }
   }
 }
 
@@ -60,13 +77,7 @@
         .name {
           display: flex;
           align-items: center;
-          height: 50%;
-        }
-
-        .company {
-          display: flex;
-          align-items: center;
-          height: 50%;
+          height: 100%;
         }
       }
     }

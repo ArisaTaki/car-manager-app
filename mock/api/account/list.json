@@ -1,0 +1,41 @@
+{
+  "code": "",
+  "data": {
+    "list": [
+      {
+        "createName": "elaina",
+        "createTime": "2022年5月10日",
+        "email": "570490640@qq.com",
+        "phone": "13214442232",
+        "type": 0,
+        "userName": "thanks",
+        "userTitle": "约尔",
+        "userId": 1
+      },
+      {
+        "createName": "elaina",
+        "createTime": "2022年5月10日",
+        "email": "570490640@qq.com",
+        "phone": "13214442232",
+        "type": 1,
+        "userName": "thanks",
+        "userTitle": "佛杰",
+        "userId": 2
+      },
+      {
+        "createName": "elaina",
+        "createTime": "2022年5月10日",
+        "email": "570490640@qq.com",
+        "phone": "13214442232",
+        "type": 2,
+        "userName": "thanks",
+        "userTitle": "阿尼亚",
+        "userId": 3
+      }
+    ],
+    "pages": 2,
+    "total": 50
+  },
+  "message": "",
+  "successful": true
+}

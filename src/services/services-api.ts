@@ -10,33 +10,18 @@ export const ServicesApi = {
   login: (params: ApiData.Login.Params):
   Promise<ApiData.Login.ResponseData> => post(ApiPaths.login, params),
 
-  getUserInfo: (): Promise<ApiData.GetUserInfo.ResponseData> => get(ApiPaths.getUserInfo),
+  AddUser: (params: ApiData.AddUser.Params):
+  Promise<ApiData.AddUser.ResponseData> => post(ApiPaths.addUser, params),
 
-  getCameraBrandsList: ():
-  Promise<ApiData.GetAllCameraBrands.ResponseData> => get(ApiPaths.getCameraList),
+  DelUser: (params: ApiData.DelUser.Params):
+  Promise<ApiData.DelUser.ResponseData> => post(ApiPaths.delUser, params),
 
-  uploadAttachment: (params: ApiData.UpdateAttachment.Params,
-    uploadProgressEvent?: (e: ProgressEvent) => void):
-  Promise<ApiData.UpdateAttachment.ResponseData> => {
-    const { fileBinaryStream } = params;
-    const formData = new FormData();
-    formData.append('fileBinaryStream', fileBinaryStream);
-    return post(ApiPaths.updateAttachment, formData, {
-      timeout: LargeFileRequestTimeOut,
-      headers: {
-        'Content-Type': 'multipart/form-data;',
-      },
-      onUploadProgress: uploadProgressEvent,
-    });
-  },
+  GetUserDetail: (params: ApiData.GetUserDetail.Params):
+  Promise<ApiData.GetUserDetail.ResponseData> => post(ApiPaths.getUserDetail, params),
 
-  addBrand: (params: ApiData.AddBrand.Params):
-  Promise<ApiData.AddBrand.Response> => post(ApiPaths.addBrand, params),
+  SearchUsers: (params: ApiData.SearchUsers.Params):
+  Promise<ApiData.SearchUsers.ResponseData> => post(ApiPaths.SearchUsers, params),
 
-  getBrandInfo: (params: ApiData.GetBrandInfo.Params):
-  Promise<ApiData.GetBrandInfo.ResponseData> => get(ApiPaths.getBrandInfo.replace(':brandId', params.brandId)),
-
-  EditBrandInfo: (params: ApiData.EditBrand.Params):
-  Promise<ApiData.EditBrand.Response> => post(ApiPaths.EditBrand.replace(':brandId',
-    params.brandId), params),
+  UpdateUser: (params: ApiData.UpdateUser.Params):
+  Promise<ApiData.UpdateUser.ResponseData> => post(ApiPaths.UpdateUser, params),
 };
