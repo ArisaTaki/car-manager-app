@@ -43,7 +43,6 @@ module.exports = {
     'no-plusplus': 'warn',
     'jsx-a11y/label-has-associated-control':'warn',
     'import/extensions': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    'linebreak-style': 'off'
+    '@typescript-eslint/no-explicit-any': 'off'
   }
 };
