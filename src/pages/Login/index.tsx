@@ -3,19 +3,19 @@ import {
   Button, Form, Input,
   FormInstance, message, Radio, RadioChangeEvent,
 } from 'antd';
-import { useHistory } from 'react-router-dom';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import classNames from 'classnames/bind';
 import styles from './style.module.scss';
 import routerPath from '@/router/router-path';
 import { ServicesApi } from '@/services/services-api';
-import { saveUser } from '@/utils/storageUtils';
+import { deletePath, getPath, saveUser } from '@/utils/storageUtils';
 import { formatRole } from '@/utils/Role';
+import getHistory from '@/utils/getHistory';
 
 const cx = classNames.bind(styles);
 
 const Login: React.FC = () => {
-  const history = useHistory();
+  const history = getHistory;
   const [type, setType] = useState(0);
 
   const { login } = ServicesApi;
@@ -34,7 +34,8 @@ const Login: React.FC = () => {
         const { data } = res;
         saveUser(data);
         message.success(`欢迎你，${data.userTitle}`);
-        history.push(routerPath.Home);
+        history.push(getPath() || routerPath.Home);
+        deletePath();
       }).catch((err) => {
         // TODO login error events
       });

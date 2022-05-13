@@ -2,7 +2,8 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { message } from 'antd';
 import { mockApiPath, onlineApiPath } from '@/constant/constants';
 import { deleteUser, getUser } from '@/utils/storageUtils';
-import { moveToSystemError403Page } from '@/helpers/history';
+import { moveToSystemError403Page, redirectToLoginPageWithOutDelay } from '@/helpers/history';
+import history from '@/utils/getHistory';
 
 if (process.env.NODE_ENV === 'development') {
   axios.defaults.baseURL = mockApiPath;
@@ -52,7 +53,9 @@ instance.interceptors.response.use(
       return Promise.reject(res);
     }
     if (res.code === '401') {
-      message.error('当前账户已过期，请重新登陆');
+      deleteUser();
+      redirectToLoginPageWithOutDelay(history.location.pathname, true);
+      message.error('登录超时，请重新登录');
       return Promise.reject(res);
     }
     return Promise.reject(res);

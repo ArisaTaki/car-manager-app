@@ -19,9 +19,10 @@ import ServiceCheck from '@/pages/ServiceCheck';
 import ServiceDelegation from '@/pages/ServiceDelegation';
 import ServiceReport from '@/pages/ServiceReport';
 import NoAuth from '@/pages/NoAuth';
+import getHistory from '@/utils/getHistory';
 
 const Router: React.FC = () => {
-  const history = createBrowserHistory();
+  const history = getHistory;
   return (
     <BaseRouter history={history}>
       <Switch>
@@ -36,8 +37,8 @@ const Router: React.FC = () => {
         <NeedLoginRoute path={routerPath.ServiceCheck} exact component={ServiceCheck} />
         <NeedLoginRoute path={routerPath.ServiceDelegation} exact component={ServiceDelegation} />
         <NeedLoginRoute path={routerPath.ServiceReport} exact component={ServiceReport} />
-        <Route path="*" exact component={NotFind} />
         <Route path={routerPath.NoAuth} exact component={NoAuth} />
+        <Route path="*" exact component={NotFind} />
       </Switch>
     </BaseRouter>
   );

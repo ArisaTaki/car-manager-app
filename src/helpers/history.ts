@@ -1,6 +1,8 @@
 // history方法二次封装
+import { push } from 'echarts/types/src/component/dataZoom/history';
 import routerPath from '@/router/router-path';
 import history from '@/utils/getHistory';
+import { savePath } from '@/utils/storageUtils';
 
 const DELAY_TIME_DEFAULT = 100;
 
@@ -41,5 +43,13 @@ export const moveToSystemError403Page = (replace?:boolean, delay?: number) => {
   if (history) {
     const navi = replace ? replaceWithDelay : pushWithDelay;
     navi(routerPath.NoAuth, null, delay);
+  }
+};
+
+export const redirectToLoginPageWithOutDelay = (nextPath?: string, isReplace?:boolean) => {
+  if (history) {
+    const navi = isReplace ? history.replace : history.push;
+    navi(routerPath.Login);
+    savePath(nextPath);
   }
 };
