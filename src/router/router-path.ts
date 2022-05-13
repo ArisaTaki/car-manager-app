@@ -10,7 +10,6 @@ const routerPath = {
   InfoReport: '/info-report',
   QualityClaims: '/quality-claims',
   Quotation: '/quotation',
-  Role: '/role',
   ServiceCheck: '/service-check',
   ServiceDelegation: '/service-delegation',
   ServiceReport: '/service-report',

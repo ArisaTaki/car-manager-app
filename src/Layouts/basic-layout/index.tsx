@@ -78,17 +78,16 @@ const BasicLayout: React.FC<BasicLayoutProps> = ({ children }) => {
             <Link to={routerPath.Home}>首页</Link>
           </Menu.Item>
           <SubMenu key="sub1" icon={<BarsOutlined />} title="售后服务管理">
-            <Menu.Item key={routerPath.CarFixForm} icon={<SettingOutlined />}>
-              <Link to={routerPath.CarFixForm}>汽车维修</Link>
-            </Menu.Item>
+            {(userInfo?.type !== 1 && userInfo?.type !== 4) ? (
+              <Menu.Item key={routerPath.CarFixForm} icon={<SettingOutlined />}>
+                <Link to={routerPath.CarFixForm}>汽车维修</Link>
+              </Menu.Item>
+            ) : null}
             <Menu.Item key={routerPath.ServiceDelegation} icon={<ReconciliationOutlined />}>
               <Link to={routerPath.ServiceDelegation}>服务委托</Link>
             </Menu.Item>
             <Menu.Item key={routerPath.ServiceReport} icon={<ProfileOutlined />}>
               <Link to={routerPath.ServiceReport}>服务报告</Link>
-            </Menu.Item>
-            <Menu.Item key={routerPath.FixResult} icon={<SmileOutlined />}>
-              <Link to={routerPath.FixResult}>维修结果</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<CalculatorOutlined />} title="服务质量管理">
@@ -110,9 +109,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = ({ children }) => {
             </Menu.Item>
             <Menu.Item key={routerPath.User} icon={<TeamOutlined />}>
               <Link to={routerPath.User}>用户管理</Link>
-            </Menu.Item>
-            <Menu.Item key={routerPath.Role} icon={<BlockOutlined />}>
-              <Link to={routerPath.Role}>权限管理</Link>
             </Menu.Item>
           </SubMenu>
           <Menu.Item key={routerPath.Question} icon={<QuestionCircleOutlined />}>
