@@ -47,12 +47,12 @@ instance.interceptors.response.use(
     }
     const res = error.response.data;
     // 处理403
-    if (res.code === 403) {
+    if (res.code === '403') {
       moveToSystemError403Page(true);
       return Promise.reject(res);
     }
-    if (res.code === 401) {
-      deleteUser();
+    if (res.code === '401') {
+      message.error('当前账户已过期，请重新登陆');
       return Promise.reject(res);
     }
     return Promise.reject(res);

@@ -172,6 +172,7 @@ const User: React.FC = () => {
       message.success(res.message);
       getUserListMethod();
     }).catch((err) => {
+      setLoading(false);
       setDelConfirmFlag(false);
     });
   };
@@ -317,6 +318,7 @@ const User: React.FC = () => {
                 type="default"
                 icon={<DeleteFilled />}
                 onClick={resetAllData}
+                disabled={keyword === '' && !type && paginationData?.current === 1 && paginationData.pageSize === 10}
               >
                 重置
               </Button>

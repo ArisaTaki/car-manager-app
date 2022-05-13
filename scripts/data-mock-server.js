@@ -42,8 +42,9 @@ app.use((req, res) => {
         } else {
             if (responseFilePath.indexOf('.json') >= 0) {
                 const mockJsonData = JSON.parse(fs.readFileSync(responseFilePath, 'utf-8'));
-                if (mockJsonData.error) {
-                    res.status(mockJsonData.status).json({
+                console.log(mockJsonData)
+                if (!mockJsonData.successful) {
+                    res.status(mockJsonData.code).json({
                         ...mockJsonData
                     })
                     return;
