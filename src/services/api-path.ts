@@ -8,4 +8,5 @@ export const ApiPaths = {
   SearchUsers: '/api/account/list',
   UpdateUser: '/api/account/update',
   getEchartsData: '/api/charts',
+  getChartsMoneyData: '/api/chartMoney',
 };

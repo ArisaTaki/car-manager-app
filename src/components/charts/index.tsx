@@ -7,16 +7,15 @@ import style from './style.module.scss';
 const cx = classNames.bind(style);
 
 export interface ChartsLineProps {
+  chartID: string,
   options: ECBasicOption,
   className?: string,
   styles?: React.CSSProperties,
   headerTitle?: string
 }
 
-const chartID = `chart-${new Date().getTime().toString()}-${Math.random().toFixed(8)}`;
-
 const Charts: React.FC<ChartsLineProps> = ({
-  options, headerTitle, styles, className,
+  chartID, options, headerTitle, styles, className,
 }) => {
   const renderEcharts = () => {
     const renderDom = document.getElementById(chartID);

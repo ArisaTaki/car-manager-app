@@ -27,4 +27,7 @@ export const ServicesApi = {
 
   GetChartsData: ():
   Promise<ApiData.ChartsDataApiMockName.ResponseData> => get(ApiPaths.getEchartsData),
+
+  GetChartsMoneyData: ():
+  Promise<ApiData.ChartsDataApiMockName.ResponseData> => get(ApiPaths.getChartsMoneyData),
 };

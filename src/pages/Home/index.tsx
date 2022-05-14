@@ -8,7 +8,7 @@ import { ResponseDataCharts } from '@/services/entities';
 
 const cx = classNames.bind(styles);
 
-const { GetChartsData } = ServicesApi;
+const { GetChartsData, GetChartsMoneyData } = ServicesApi;
 
 const formatData = (data: ResponseDataCharts): ECBasicOption => ({
   title: {
@@ -48,18 +48,24 @@ const formatData = (data: ResponseDataCharts): ECBasicOption => ({
 });
 
 const Home: React.FC = () => {
-  const [options, setOptions] = useState<ECBasicOption>();
+  const [chartData, setChartData] = useState<ECBasicOption>();
+  const [chartMoneyData, setChartMoneyData] = useState<ECBasicOption>();
 
   useEffect(() => {
     GetChartsData().then((res) => {
-      setOptions(formatData(res.data));
+      setChartData(formatData(res.data));
+    });
+    GetChartsMoneyData().then(({ data }) => {
+      setChartMoneyData(formatData(data));
     });
   }, []);
   return (
-    <>
-      {options ? <Charts headerTitle="charts图" options={options!} styles={{ width: '100%', height: '70vh' }} />
+    <div className={cx('home-charts-list')}>
+      {chartData ? <Charts headerTitle="charts图" chartID="chartData" options={chartData!} styles={{ width: '48%', height: '70vh' }} />
         : null}
-    </>
+      {chartMoneyData ? <Charts headerTitle="charts图" chartID="chartMoneyData" options={chartMoneyData!} styles={{ width: '48%', height: '70vh' }} />
+        : null}
+    </div>
   );
 };
 
