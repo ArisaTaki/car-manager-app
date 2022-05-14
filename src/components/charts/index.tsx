@@ -13,11 +13,13 @@ export interface ChartsLineProps {
   headerTitle?: string
 }
 
+const chartID = `chart-${new Date().getTime().toString()}-${Math.random().toFixed(8)}`;
+
 const Charts: React.FC<ChartsLineProps> = ({
   options, headerTitle, styles, className,
 }) => {
   const renderEcharts = () => {
-    const renderDom = document.getElementById('div');
+    const renderDom = document.getElementById(chartID);
     const testCharts = echarts.init(renderDom!);
     const dom = testCharts.setOption(options);
     return (
@@ -30,7 +32,7 @@ const Charts: React.FC<ChartsLineProps> = ({
   }, []);
 
   return (
-    <div id="div" className={cx('init-style', className)} style={styles}>
+    <div id={chartID} className={cx('init-style', className)} style={styles}>
       {headerTitle}
     </div>
   );
