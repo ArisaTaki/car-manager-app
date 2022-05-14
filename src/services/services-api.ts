@@ -27,4 +27,23 @@ export const ServicesApi = {
 
   GetChartsData: ():
   Promise<ApiData.ChartsDataApiMockName.ResponseData> => get(ApiPaths.getEchartsData),
+
+  AddDelegation: (params: ApiData.AddDelegation.Params):
+  Promise<ApiData.AddDelegation.ResponseData> => post(ApiPaths.addDelegation, params),
+
+  CheckDelegation: (params: ApiData.CheckDelegation.Params):
+  Promise<ApiData.CheckDelegation.ResponseData> => post(ApiPaths.checkDelegation, params),
+
+  DeleteDelegation: (params: ApiData.DeleteDelegation.Params):
+  Promise<ApiData.DeleteDelegation.ResponseData> => post(ApiPaths.deleteDelegation, params),
+
+  GetDelegationDetailInfo: (params: ApiData.GetDelegationDetailInfo.Params):
+  Promise<ApiData.GetDelegationDetailInfo.ResponseData> => post(ApiPaths.getDelegationDetailInfo,
+    params),
+
+  SearchDelegations: (params: ApiData.GetDelegationList.Params):
+  Promise<ApiData.GetDelegationList.ResponseData> => post(ApiPaths.getDelegationList, params),
+
+  UpdateDelegation: (params: ApiData.UpdateDelegation.Params):
+  Promise<ApiData.UpdateDelegation.ResponseData> => post(ApiPaths.updateDelegation, params),
 };

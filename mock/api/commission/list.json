@@ -1,0 +1,50 @@
+{
+  "code": "200",
+  "data": {
+    "list": [
+      {
+        "bugAddress": "bugAddress",
+        "bugDate": "bugDate",
+        "bugDescription": "bugDescription",
+        "buyDate": "buyDate",
+        "carModel": "carModel",
+        "createName": "createName",
+        "email": "email",
+        "id": 0,
+        "phone": "",
+        "userName": "",
+        "userRequire": ""
+      },
+      {
+        "bugAddress": "bugAddress",
+        "bugDate": "bugDate",
+        "bugDescription": "bugDescription",
+        "buyDate": "buyDate",
+        "carModel": "carModel",
+        "createName": "createName",
+        "email": "email",
+        "id": 1,
+        "phone": "",
+        "userName": "",
+        "userRequire": ""
+      },
+      {
+        "bugAddress": "bugAddress",
+        "bugDate": "bugDate",
+        "bugDescription": "bugDescription",
+        "buyDate": "buyDate",
+        "carModel": "carModel",
+        "createName": "createName",
+        "email": "email",
+        "id": 2,
+        "phone": "",
+        "userName": "",
+        "userRequire": ""
+      }
+    ],
+    "pages": 2,
+    "total": 50
+  },
+  "message": "",
+  "successful": true
+}

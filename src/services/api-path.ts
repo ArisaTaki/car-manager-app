@@ -8,4 +8,10 @@ export const ApiPaths = {
   SearchUsers: '/api/account/list',
   UpdateUser: '/api/account/update',
   getEchartsData: '/api/charts',
+  addDelegation: '/api/commission/add',
+  checkDelegation: '/api/commission/audit',
+  deleteDelegation: '/api/commission/delete',
+  getDelegationDetailInfo: '/api/commission/detail',
+  getDelegationList: '/api/commission/list',
+  updateDelegation: '/api/commission/update',
 };

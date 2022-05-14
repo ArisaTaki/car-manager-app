@@ -70,6 +70,45 @@ export interface AddUserInfo {
   userTitle: string
 }
 
+export interface DelegationDetails extends DelegationInfoBase {
+  // 委托id
+  id: number;
+  // 创建时间
+  createTime: string;
+  // 审核不通过（流转失败）的原因
+  reason: string;
+  // 委托单状态 0-待流转 1-审核通过已流转 2-审核不通过
+  state: string
+}
+
+export interface DelegationListItem extends DelegationInfoBase {
+  // 委托id
+  id: number;
+}
+
+export interface DelegationInfoBase {
+  // 故障地址
+  bugAddress?: string;
+  // 故障日期
+  bugDate?: string;
+  // 故障描述
+  bugDescription: string;
+  // 购买日期
+  buyDate?: string;
+  // 汽车型号
+  carModel: string;
+  // 创建人名称
+  createName: string;
+  // 用户邮箱
+  email?: string;
+  // 用户电话
+  phone: string;
+  // 用户名称
+  userName: string;
+  // 用户留言要求
+  userRequire?: string
+}
+
 export namespace ApiData {
   // 用户登录信息
   namespace Login {
@@ -117,13 +156,13 @@ export namespace ApiData {
       type?: number
     }
 
-    export interface ResponseDataDetail {
-      list: UserInfoDetailsWithId[],
+    export interface ResponseDataDetail<T> {
+      list: T[],
       pages: number,
       total: number,
     }
 
-    type ResponseData = BaseResponse<ResponseDataDetail>;
+    type ResponseData = BaseResponse<ResponseDataDetail<UserInfoDetailsWithId>>;
   }
 
   // 更新用户信息
@@ -141,5 +180,69 @@ export namespace ApiData {
   // charts的数据
   namespace ChartsDataApiMockName {
     type ResponseData = BaseResponse<ResponseDataCharts>;
+  }
+
+  // 添加委托
+  namespace AddDelegation {
+    interface Params extends DelegationInfoBase {
+      // 创建人id
+      createBy: number;
+    }
+    type ResponseData = BaseResponse;
+  }
+
+  // 审核委托单
+  namespace CheckDelegation {
+    interface Params {
+      id: number,
+      state: number
+    }
+    type ResponseData = BaseResponse;
+  }
+
+  // 删除委托单
+  namespace DeleteDelegation {
+    interface Params {
+      id: number;
+    }
+
+    type ResponseData = BaseResponse;
+  }
+
+  // 查询委托详情
+  namespace GetDelegationDetailInfo {
+    interface Params {
+      id: number;
+    }
+
+    type ResponseData = BaseResponse<DelegationDetails>;
+  }
+
+  namespace GetDelegationList {
+    interface Params {
+      keyword?: string
+      pageIndex?: number,
+      pageSize?: number,
+      state?: number
+    }
+
+    export interface ResponseDataDetail<T> {
+      list: T[],
+      pages: number,
+      total: number,
+    }
+
+    type ResponseData = BaseResponse<ResponseDataDetail<DelegationListItem>>;
+  }
+
+  namespace UpdateDelegation {
+    interface Params extends DelegationInfoBase {
+      // 创建人id
+      createBy: number;
+      // 委托id
+      id: number;
+    }
+
+    type ResponseData = BaseResponse;
   }
 }

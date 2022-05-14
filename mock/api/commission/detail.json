@@ -1,0 +1,21 @@
+{
+  "code": "200",
+  "data": {
+    "bugAddress": "bugAddress",
+    "bugDate": "bugDate",
+    "bugDescription": "bugDescription",
+    "buyDate": "buyDate",
+    "carModel": "carModel",
+    "createName": "createName",
+    "createTime": "createTime",
+    "email": "email",
+    "id": 0,
+    "phone": "phone",
+    "reason": "reason",
+    "state": 0,
+    "userName": "userName",
+    "userRequire": "userRequire"
+  },
+  "message": "",
+  "successful": true
+}
