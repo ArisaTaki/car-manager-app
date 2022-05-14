@@ -73,6 +73,8 @@ const Login: React.FC = () => {
             <Radio value={0}>{formatRole(0)}</Radio>
             <Radio value={1}>{formatRole(1)}</Radio>
             <Radio value={2}>{formatRole(2)}</Radio>
+            <Radio value={3}>{formatRole(3)}</Radio>
+            <Radio value={4}>{formatRole(4)}</Radio>
           </Radio.Group>
           <Button
             type="primary"

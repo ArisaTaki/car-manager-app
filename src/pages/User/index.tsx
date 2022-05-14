@@ -286,6 +286,18 @@ const User: React.FC = () => {
                     >
                       {formatRole(2)}
                     </Menu.Item>
+                    <Menu.Item
+                      key={3}
+                      onClick={() => { findRoleUserList(3); }}
+                    >
+                      {formatRole(3)}
+                    </Menu.Item>
+                    <Menu.Item
+                      key={4}
+                      onClick={() => { findRoleUserList(4); }}
+                    >
+                      {formatRole(4)}
+                    </Menu.Item>
                   </Menu>
                   )}
                 >
