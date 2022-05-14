@@ -42,21 +42,8 @@ export interface UserInfo {
 }
 
 export interface ResponseDataCharts {
-  titleMock: {
-    textMock: string;
-  },
-  tooltipMock: unknown,
-  xAxisMock: {
-    dataMock: string[],
-  },
-  yAxisMock: {
-    dataMock: string[]
-  },
-  seriesMock: {
-    nameMock: string,
-    typeMock: string,
-    dataMock: number[],
-  }[]
+  date: string[],
+  result: number[]
 }
 
 export interface AddUserInfo {

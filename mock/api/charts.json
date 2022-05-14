@@ -3,22 +3,7 @@
   "message": "",
   "successful": true,
   "data": {
-    "titleMock": {
-      "textMock": "ECharts 入门示例"
-    },
-    "tooltipMock": {},
-    "xAxisMock": {
-      "dataMock": [
-        "衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"
-      ]
-    },
-    "yAxisMock": {},
-    "seriesMock": [
-      {
-        "nameMock": "销量",
-        "typeMock": "bar",
-        "dataMock": [5, 20, 36, 10, 10, 20]
-      }
-    ]
+    "date": ["05-07", "05-08", "05-09", "05-10", "05-11", "05-12", "05-13", "05-14"],
+    "result": [820, 932, 901, 934, 1290, 1330, 1320, 1502]
   }
 }

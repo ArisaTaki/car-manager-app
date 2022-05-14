@@ -10,30 +10,42 @@ const cx = classNames.bind(styles);
 
 const { GetChartsData } = ServicesApi;
 
-const formatData = (data: ResponseDataCharts): ECBasicOption => {
-  const {
-    titleMock, seriesMock, tooltipMock, xAxisMock, yAxisMock,
-  } = data;
-  return {
-    xAxis: {
-      type: 'category',
-      data: ['05-07', '05-08', '05-09', '05-10', '05-11', '05-12', '05-13', '05-14'],
+const formatData = (data: ResponseDataCharts): ECBasicOption => ({
+  title: {
+    show: true,
+    text: '维修工单数',
+  },
+  xAxis: {
+    type: 'category',
+    data: data.date,
+    axisTick: {
+      alignWithLabel: true,
     },
-    yAxis: {
-      type: 'value',
+    axisLabel: {
+      show: true,
     },
-    tooltip: {
-      trigger: 'axis',
+  },
+  yAxis: {
+    type: 'value',
+    name: '维修工单/单',
+    axisLine: {
+      show: true,
     },
-    series: [
-      {
-        data: [820, 932, 901, 934, 1290, 1330, 1320, 1502],
-        type: 'line',
-        smooth: true,
-      },
-    ],
-  };
-};
+    axisLabel: {
+      show: true,
+    },
+  },
+  tooltip: {
+    trigger: 'axis',
+  },
+  series: [
+    {
+      data: data.result,
+      type: 'line',
+      smooth: true,
+    },
+  ],
+});
 
 const Home: React.FC = () => {
   const [options, setOptions] = useState<ECBasicOption>();
