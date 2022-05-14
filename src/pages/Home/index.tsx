@@ -15,21 +15,23 @@ const formatData = (data: ResponseDataCharts): ECBasicOption => {
     titleMock, seriesMock, tooltipMock, xAxisMock, yAxisMock,
   } = data;
   return {
-    title: {
-      text: titleMock.textMock,
-    },
-    tooltip: tooltipMock,
     xAxis: {
-      data: xAxisMock.dataMock,
+      type: 'category',
+      data: ['05-07', '05-08', '05-09', '05-10', '05-11', '05-12', '05-13', '05-14'],
     },
     yAxis: {
-      data: yAxisMock.dataMock,
+      type: 'value',
     },
-    series: seriesMock.map((item) => ({
-      name: item.nameMock,
-      data: item.dataMock,
-      type: item.typeMock,
-    })),
+    tooltip: {
+      trigger: 'axis',
+    },
+    series: [
+      {
+        data: [820, 932, 901, 934, 1290, 1330, 1320, 1502],
+        type: 'line',
+        smooth: true,
+      },
+    ],
   };
 };
 
@@ -43,7 +45,7 @@ const Home: React.FC = () => {
   }, []);
   return (
     <>
-      {options ? <Charts headerTitle="charts图" options={options!} />
+      {options ? <Charts headerTitle="charts图" options={options!} styles={{ width: '100%', height: '70vh' }} />
         : null}
     </>
   );
