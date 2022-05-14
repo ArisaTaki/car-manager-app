@@ -7,4 +7,5 @@ export const ApiPaths = {
   getUserDetail: '/api/account/detail',
   SearchUsers: '/api/account/list',
   UpdateUser: '/api/account/update',
+  getEchartsData: '/api/charts',
 };

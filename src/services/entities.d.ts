@@ -1,3 +1,5 @@
+import { ECBasicOption } from 'echarts/types/dist/shared';
+
 export interface BaseResponse<T = any> {
   // 返回message
   message: string
@@ -37,6 +39,24 @@ export interface UserInfo {
   image: string
   // 昵称
   username: string
+}
+
+export interface ResponseDataCharts {
+  titleMock: {
+    textMock: string;
+  },
+  tooltipMock: unknown,
+  xAxisMock: {
+    dataMock: string[],
+  },
+  yAxisMock: {
+    dataMock: string[]
+  },
+  seriesMock: {
+    nameMock: string,
+    typeMock: string,
+    dataMock: number[],
+  }[]
 }
 
 export interface AddUserInfo {
@@ -116,5 +136,10 @@ export namespace ApiData {
     }
 
     type ResponseData = BaseResponse;
+  }
+
+  // charts的数据
+  namespace ChartsDataApiMockName {
+    type ResponseData = BaseResponse<ResponseDataCharts>;
   }
 }

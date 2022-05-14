@@ -24,4 +24,7 @@ export const ServicesApi = {
 
   UpdateUser: (params: ApiData.UpdateUser.Params):
   Promise<ApiData.UpdateUser.ResponseData> => post(ApiPaths.UpdateUser, params),
+
+  GetChartsData: ():
+  Promise<ApiData.ChartsDataApiMockName.ResponseData> => get(ApiPaths.getEchartsData),
 };

@@ -1,0 +1,24 @@
+{
+  "code": "200",
+  "message": "",
+  "successful": true,
+  "data": {
+    "titleMock": {
+      "textMock": "ECharts 入门示例"
+    },
+    "tooltipMock": {},
+    "xAxisMock": {
+      "dataMock": [
+        "衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"
+      ]
+    },
+    "yAxisMock": {},
+    "seriesMock": [
+      {
+        "nameMock": "销量",
+        "typeMock": "bar",
+        "dataMock": [5, 20, 36, 10, 10, 20]
+      }
+    ]
+  }
+}
