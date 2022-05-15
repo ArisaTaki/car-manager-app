@@ -70,13 +70,13 @@ export interface AddUserInfo {
 
 export interface DelegationDetails extends DelegationInfoBase {
   // 委托id
-  id: number;
+  id?: number;
   // 创建时间
-  createTime: string;
+  createTime?: string;
   // 审核不通过（流转失败）的原因
-  reason: string;
+  reason?: string;
   // 委托单状态 0-待流转 1-审核通过已流转 2-审核不通过
-  state: string
+  state?: string
 }
 
 export interface DelegationListItem extends DelegationInfoBase {
@@ -96,11 +96,13 @@ export interface DelegationInfoBase {
   // 汽车型号
   carModel: string;
   // 创建人名称
-  createName: string;
+  createName?: string;
   // 用户邮箱
   email?: string;
   // 用户电话
   phone: string;
+  // 审核状态
+  state?: number;
   // 用户名称
   userName: string;
   // 用户留言要求
@@ -118,6 +120,19 @@ export interface RepairInfoBase {
   repairDate: string,
   // 维修站
   repairStation: string,
+}
+
+export interface UpdateDelegationInfo extends DelegationInfoBase {
+  // 更新人id
+  updateBy: number;
+  // 更新人name
+  updateName: string;
+  // 委托id
+  id: number;
+}
+
+export interface AddDelegationInfo extends DelegationInfoBase {
+  createBy: number
 }
 
 export interface PartInfoBase {
@@ -206,10 +221,14 @@ export namespace ApiData {
 
   // 添加委托
   namespace AddDelegation {
-    interface Params extends DelegationInfoBase {
-      // 创建人id
-      createBy: number;
-    }
+    type Params = AddDelegationInfo;
+    type ResponseData = BaseResponse;
+  }
+
+  // 更新委托
+  namespace UpdateDelegation {
+    type Params = UpdateDelegationInfo;
+
     type ResponseData = BaseResponse;
   }
 
@@ -217,7 +236,8 @@ export namespace ApiData {
   namespace CheckDelegation {
     interface Params {
       id: number,
-      state: number
+      state: number,
+      notPassReason: string,
     }
     type ResponseData = BaseResponse;
   }
@@ -256,18 +276,6 @@ export namespace ApiData {
     }
 
     type ResponseData = BaseResponse<ResponseDataDetail<DelegationListItem>>;
-  }
-
-  // 更新委托
-  namespace UpdateDelegation {
-    interface Params extends DelegationInfoBase {
-      // 创建人id
-      createBy: number;
-      // 委托id
-      id: number;
-    }
-
-    type ResponseData = BaseResponse;
   }
 
   // 创建维修
@@ -357,7 +365,7 @@ export namespace ApiData {
   // 分页查询零件列表
   namespace SearchPartList {
 
-    import GetPartDetailProps = ApiData.getPartDetail.GetPartDetailProps;
+    import GetPartDetailProps = ApiData.GetPartDetail.GetPartDetailProps;
 
     interface Params {
       // 当前页，默认第一页,示例值(1)

@@ -11,6 +11,7 @@
         "createName": "createName",
         "email": "email",
         "id": 0,
+        "state":0,
         "phone": "",
         "userName": "",
         "userRequire": ""
@@ -24,12 +25,13 @@
         "createName": "createName",
         "email": "email",
         "id": 1,
+        "state":0,
         "phone": "",
         "userName": "",
         "userRequire": ""
       },
       {
-        "bugAddress": "bugAddress",
+        "bugAddress": "123",
         "bugDate": "bugDate",
         "bugDescription": "bugDescription",
         "buyDate": "buyDate",
@@ -37,6 +39,7 @@
         "createName": "createName",
         "email": "email",
         "id": 2,
+        "state":1,
         "phone": "",
         "userName": "",
         "userRequire": ""
