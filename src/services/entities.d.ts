@@ -40,21 +40,8 @@ export interface UserInfo {
 }
 
 export interface ResponseDataCharts {
-  titleMock: {
-    textMock: string;
-  },
-  tooltipMock: unknown,
-  xAxisMock: {
-    dataMock: string[],
-  },
-  yAxisMock: {
-    dataMock: string[]
-  },
-  seriesMock: {
-    nameMock: string,
-    typeMock: string,
-    dataMock: number[],
-  }[]
+  date: string[],
+  result: number[]
 }
 
 export interface AddUserInfo {
@@ -66,6 +53,10 @@ export interface AddUserInfo {
   type: number,
   userName: string,
   userTitle: string
+}
+
+export interface ServiceReportTableColumns {
+  [name: string]: string
 }
 
 export interface DelegationDetails extends DelegationInfoBase {
@@ -109,6 +100,8 @@ export interface DelegationInfoBase {
   userRequire?: string
 }
 
+// 维修模块
+// region
 export interface RepairInfoBase {
   // 委托id
   commissionId: number,
@@ -121,7 +114,6 @@ export interface RepairInfoBase {
   // 维修站
   repairStation: string,
 }
-
 export interface UpdateDelegationInfo extends DelegationInfoBase {
   // 更新人id
   updateBy: number;
@@ -141,12 +133,20 @@ export interface PartInfoBase {
   createBy?: number,
   // 创建人姓名（当前登录）
   createName?: string,
-  //创建零件时间
+  // 创建零件时间
   createTime:string,
   // 零件名称
   name?: string,
   // 价位
   price?: number,
+}
+export interface RepairDetailInfo extends RepairInfoBase{
+  // 创建时间
+  createTime: string
+  // 维修单id
+  id: number
+  // 维修状态 0-待维修 1-维修中 2-已维修
+  state: number
 }
 
 export namespace ApiData {
@@ -196,13 +196,13 @@ export namespace ApiData {
       type?: number
     }
 
-    export interface ResponseDataDetail<T> {
-      list: T[],
+    export interface ResponseDataDetail {
+      list: UserInfoDetailsWithId[],
       pages: number,
       total: number,
     }
 
-    type ResponseData = BaseResponse<ResponseDataDetail<UserInfoDetailsWithId>>;
+    type ResponseData = BaseResponse<ResponseDataDetail>;
   }
 
   // 更新用户信息
@@ -220,6 +220,13 @@ export namespace ApiData {
   // charts的数据
   namespace ChartsDataApiMockName {
     type ResponseData = BaseResponse<ResponseDataCharts>;
+  }
+
+  // 服务报告 src: @/pages/ServiceReport/index.tsx
+  namespace ServiceReport {
+    interface ServiceReportTableColumns {
+      [name: string]: string
+    }
   }
 
   // 添加委托

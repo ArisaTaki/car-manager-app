@@ -28,6 +28,9 @@ export const ServicesApi = {
   GetChartsData: ():
   Promise<ApiData.ChartsDataApiMockName.ResponseData> => get(ApiPaths.getEchartsData),
 
+  GetChartsMoneyData: ():
+  Promise<ApiData.ChartsDataApiMockName.ResponseData> => get(ApiPaths.getChartsMoneyData),
+
   AddDelegation: (params: ApiData.AddDelegation.Params):
   Promise<ApiData.AddDelegation.ResponseData> => post(ApiPaths.addDelegation, params),
 
