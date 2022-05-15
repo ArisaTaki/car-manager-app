@@ -58,4 +58,20 @@ export const ServicesApi = {
 
   UpdateRepairState: (params: ApiData.UpdateRepairState.Params):
   Promise<ApiData.UpdateRepairState.ResponseData> => post(ApiPaths.updateRepairState, params),
+
+  AddPart: (params: ApiData.AddPart.Params):
+  Promise<ApiData.AddPart.ResponseData> => post(ApiPaths.addPart, params),
+
+  DeletePart: (params: ApiData.DelPart.Params):
+  Promise<ApiData.DelPart.ResponseData> => post(ApiPaths.deletePart, params),
+
+  GetPartDetail: (params: ApiData.GetPartDetail.Params):
+  Promise<ApiData.GetPartDetail.ResponseData> => post(ApiPaths.getPartDetail, params),
+
+  SearchPartList: (params: ApiData.SearchPartList.Params):
+  Promise<ApiData.SearchPartList.ResponseData> => post(ApiPaths.getPartList, params),
+
+  UpdatePartInfo: (params: ApiData.UpdatePartInfo.Params):
+  Promise<ApiData.UpdatePartInfo.ResponseData> => post(ApiPaths.updatePart, params),
+
 };

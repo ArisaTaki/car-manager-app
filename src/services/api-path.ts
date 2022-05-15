@@ -18,5 +18,9 @@ export const ApiPaths = {
   getRepairDetail: '/api/repair/detail',
   getRepairList: '/api/repair/list',
   updateRepairState: '/api/repair/update-state',
-
+  addPart: '/api/part/add',
+  deletePart: '/api/part/delete',
+  getPartDetail: '/api/part/detail',
+  getPartList: '/api/part/list',
+  updatePart: '/api/part/update',
 };

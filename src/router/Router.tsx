@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Router as BaseRouter, Switch, Route,
 } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
 import routerPath from '@/router/router-path';
 import User from '@/pages/User';
 import Login from '@/pages/Login';

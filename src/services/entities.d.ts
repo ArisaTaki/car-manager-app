@@ -120,6 +120,17 @@ export interface RepairInfoBase {
   repairStation: string,
 }
 
+export interface PartInfoBase {
+  // 创建人id（当前登录）
+  createBy?: number,
+  // 创建人姓名（当前登录）
+  createName?: string,
+  // 零件名称
+  name?: string,
+  // 价位
+  price?: number,
+}
+
 export namespace ApiData {
   // 用户登录信息
   namespace Login {
@@ -312,6 +323,70 @@ export namespace ApiData {
       id: number,
       state: number
     }
+    type ResponseData = BaseResponse;
+  }
+
+  // 添加零件
+  namespace AddPart {
+    type Params = PartInfoBase;
+    type ResponseData = BaseResponse;
+  }
+
+  // 删除零件
+  namespace DelPart {
+    interface Params {
+      id: number
+    }
+    type ResponseData = BaseResponse;
+  }
+
+  // 查询零件详情
+  namespace GetPartDetail {
+    interface Params {
+      id: number
+    }
+    export interface GetPartDetailProps extends PartInfoBase {
+      // 创建时间
+      createTime: string
+      // 零件id
+      id: number
+    }
+    type ResponseData = BaseResponse<GetPartDetailProps>;
+  }
+
+  // 分页查询零件列表
+  namespace SearchPartList {
+
+    import GetPartDetailProps = ApiData.getPartDetail.GetPartDetailProps;
+
+    interface Params {
+      // 当前页，默认第一页,示例值(1)
+      pageIndex?: number,
+      // 每页显示条数，默认20,示例值(20)
+      pageSize?: number,
+      // 关键词
+      keyword?: string
+    }
+
+    export interface ResponseDataDetail<T> {
+      list: T[],
+      pages: number,
+      total: number,
+    }
+
+    type ResponseData = BaseResponse<ResponseDataDetail<GetPartDetailProps>>;
+  }
+
+  // 更新零件
+  namespace UpdatePartInfo {
+    interface Params {
+      id: number,
+      name: string,
+      price: number,
+      updateBy: number,
+      updateName: string
+    }
+
     type ResponseData = BaseResponse;
   }
 }
