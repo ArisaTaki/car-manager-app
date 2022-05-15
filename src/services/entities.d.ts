@@ -57,6 +57,10 @@ export interface AddUserInfo {
   userTitle: string
 }
 
+export interface ServiceReportTableColumns {
+  [name: string]: string
+}
+
 export namespace ApiData {
   // 用户登录信息
   namespace Login {
@@ -128,5 +132,12 @@ export namespace ApiData {
   // charts的数据
   namespace ChartsDataApiMockName {
     type ResponseData = BaseResponse<ResponseDataCharts>;
+  }
+
+  // 服务报告 src: @/pages/ServiceReport/index.tsx
+  namespace ServiceReport {
+    interface ServiceReportTableColumns {
+      [name: string]: string
+    }
   }
 }
