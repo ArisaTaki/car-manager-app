@@ -136,10 +136,13 @@ export interface AddDelegationInfo extends DelegationInfoBase {
 }
 
 export interface PartInfoBase {
+  id: number;
   // 创建人id（当前登录）
   createBy?: number,
   // 创建人姓名（当前登录）
   createName?: string,
+  //创建零件时间
+  createTime:string,
   // 零件名称
   name?: string,
   // 价位
