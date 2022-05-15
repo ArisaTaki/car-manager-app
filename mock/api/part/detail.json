@@ -1,0 +1,12 @@
+{
+  "code": "200",
+  "data": {
+    "createName": "testName",
+    "createTime": "2022/01/01",
+    "id": 1,
+    "name": "轮胎",
+    "price": 20
+  },
+  "message": "",
+  "successful": true
+}

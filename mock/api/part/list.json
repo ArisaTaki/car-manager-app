@@ -1,0 +1,39 @@
+{
+  "code": "200",
+  "data": {
+    "list": [
+      {
+        "createName": "testName1",
+        "createTime": "2022/02/02",
+        "id": 1,
+        "name": "轮胎",
+        "price": 10
+      },
+      {
+        "createName": "testName2",
+        "createTime": "2022/02/02",
+        "id": 2,
+        "name": "车窗",
+        "price": 20
+      },
+      {
+        "createName": "testName3",
+        "createTime": "2022/02/02",
+        "id": 3,
+        "name": "车灯",
+        "price": 30
+      },
+      {
+        "createName": "testName1",
+        "createTime": "2022/02/02",
+        "id": 1,
+        "name": "轮胎",
+        "price": 10
+      }
+    ],
+    "pages": 1,
+    "total": 3
+  },
+  "message": "",
+  "successful": true
+}
