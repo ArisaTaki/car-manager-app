@@ -28,6 +28,7 @@ const CarFixForm: React.FC = () => {
   });
   const [repairList, setRepairList] = useState<RepairDetailInfo[]>([]);
   const [tableLoading, setTableLoading] = useState<boolean>(true);
+  const [buttonLoading, setButtonLoading] = useState<boolean>(true);
   const [detailModalVisible, setDetailModalVisible] = useState<boolean>(false);
   const [repairDetailInfo, setRepairDetailInfo] = useState<RepairDetailInfo>();
 
@@ -70,8 +71,10 @@ const CarFixForm: React.FC = () => {
       dataIndex: 'action',
       render: (text, item) => (
         <>
-          { item.state !== 1 ? (<Button style={{ width: 100 }}>去维修</Button>) : null }
-          { item.state === 1 ? (<Button style={{ width: 100 }}>维修完成</Button>) : null }
+          {/* eslint-disable-next-line max-len */}
+          { item.state !== 1 ? (<Spin spinning={buttonLoading}><Button style={{ width: 100 }}>去维修</Button></Spin>) : null }
+          {/* eslint-disable-next-line max-len */}
+          { item.state === 1 ? (<Spin spinning={buttonLoading}><Button style={{ width: 100 }}>维修完成</Button></Spin>) : null }
           <Button type="primary" onClick={() => { getRepairDetail(item); }}>详情</Button>
         </>
       ),
@@ -161,10 +164,10 @@ const CarFixForm: React.FC = () => {
         title="Basic Modal"
         visible={detailModalVisible}
         onOk={detailOk}
+        closable={false}
         destroyOnClose
-        maskClosable={false}
         footer={[
-          <Button key="ok" onClick={() => { detailOk(); }}>确定</Button>,
+          <Button key="ok" type="primary" onClick={() => { detailOk(); }}>确定</Button>,
         ]}
       >
         { repairDetailInfo ? (<CarFixDetail repairDetailInfo={repairDetailInfo} />) : null }
