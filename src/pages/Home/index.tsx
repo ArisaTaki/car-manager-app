@@ -8,44 +8,64 @@ import { ResponseDataCharts } from '@/services/entities';
 
 const cx = classNames.bind(styles);
 
-const { GetChartsData } = ServicesApi;
+const { GetChartsData, GetChartsMoneyData } = ServicesApi;
 
-const formatData = (data: ResponseDataCharts): ECBasicOption => {
-  const {
-    titleMock, seriesMock, tooltipMock, xAxisMock, yAxisMock,
-  } = data;
-  return {
-    title: {
-      text: titleMock.textMock,
+const formatData = (data: ResponseDataCharts): ECBasicOption => ({
+  title: {
+    show: true,
+    text: '维修工单数',
+  },
+  xAxis: {
+    type: 'category',
+    data: data.date,
+    axisTick: {
+      alignWithLabel: true,
     },
-    tooltip: tooltipMock,
-    xAxis: {
-      data: xAxisMock.dataMock,
+    axisLabel: {
+      show: true,
     },
-    yAxis: {
-      data: yAxisMock.dataMock,
+  },
+  yAxis: {
+    type: 'value',
+    name: '维修工单/单',
+    axisLine: {
+      show: true,
     },
-    series: seriesMock.map((item) => ({
-      name: item.nameMock,
-      data: item.dataMock,
-      type: item.typeMock,
-    })),
-  };
-};
+    axisLabel: {
+      show: true,
+    },
+  },
+  tooltip: {
+    trigger: 'axis',
+  },
+  series: [
+    {
+      data: data.result,
+      type: 'line',
+      smooth: true,
+    },
+  ],
+});
 
 const Home: React.FC = () => {
-  const [options, setOptions] = useState<ECBasicOption>();
+  const [chartData, setChartData] = useState<ECBasicOption>();
+  const [chartMoneyData, setChartMoneyData] = useState<ECBasicOption>();
 
   useEffect(() => {
     GetChartsData().then((res) => {
-      setOptions(formatData(res.data));
+      setChartData(formatData(res.data));
+    });
+    GetChartsMoneyData().then(({ data }) => {
+      setChartMoneyData(formatData(data));
     });
   }, []);
   return (
-    <>
-      {options ? <Charts headerTitle="charts图" options={options!} />
+    <div className={cx('home-charts-list')}>
+      {chartData ? <Charts headerTitle="charts图" chartID="chartData" options={chartData!} styles={{ width: '48%', height: '70vh' }} />
         : null}
-    </>
+      {chartMoneyData ? <Charts headerTitle="charts图" chartID="chartMoneyData" options={chartMoneyData!} styles={{ width: '48%', height: '70vh' }} />
+        : null}
+    </div>
   );
 };
 

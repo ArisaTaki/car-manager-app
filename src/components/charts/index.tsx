@@ -7,6 +7,7 @@ import style from './style.module.scss';
 const cx = classNames.bind(style);
 
 export interface ChartsLineProps {
+  chartID: string,
   options: ECBasicOption,
   className?: string,
   styles?: React.CSSProperties,
@@ -14,10 +15,10 @@ export interface ChartsLineProps {
 }
 
 const Charts: React.FC<ChartsLineProps> = ({
-  options, headerTitle, styles, className,
+  chartID, options, headerTitle, styles, className,
 }) => {
   const renderEcharts = () => {
-    const renderDom = document.getElementById('div');
+    const renderDom = document.getElementById(chartID);
     const testCharts = echarts.init(renderDom!);
     const dom = testCharts.setOption(options);
     return (
@@ -30,7 +31,7 @@ const Charts: React.FC<ChartsLineProps> = ({
   }, []);
 
   return (
-    <div id="div" className={cx('init-style', className)} style={styles}>
+    <div id={chartID} className={cx('init-style', className)} style={styles}>
       {headerTitle}
     </div>
   );

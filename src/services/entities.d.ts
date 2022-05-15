@@ -40,21 +40,8 @@ export interface UserInfo {
 }
 
 export interface ResponseDataCharts {
-  titleMock: {
-    textMock: string;
-  },
-  tooltipMock: unknown,
-  xAxisMock: {
-    dataMock: string[],
-  },
-  yAxisMock: {
-    dataMock: string[]
-  },
-  seriesMock: {
-    nameMock: string,
-    typeMock: string,
-    dataMock: number[],
-  }[]
+  date: string[],
+  result: number[]
 }
 
 export interface AddUserInfo {
@@ -66,6 +53,10 @@ export interface AddUserInfo {
   type: number,
   userName: string,
   userTitle: string
+}
+
+export interface ServiceReportTableColumns {
+  [name: string]: string
 }
 
 export interface DelegationDetails extends DelegationInfoBase {
@@ -179,13 +170,13 @@ export namespace ApiData {
       type?: number
     }
 
-    export interface ResponseDataDetail<T> {
-      list: T[],
+    export interface ResponseDataDetail {
+      list: UserInfoDetailsWithId[],
       pages: number,
       total: number,
     }
 
-    type ResponseData = BaseResponse<ResponseDataDetail<UserInfoDetailsWithId>>;
+    type ResponseData = BaseResponse<ResponseDataDetail>;
   }
 
   // 更新用户信息
@@ -203,6 +194,13 @@ export namespace ApiData {
   // charts的数据
   namespace ChartsDataApiMockName {
     type ResponseData = BaseResponse<ResponseDataCharts>;
+  }
+
+  // 服务报告 src: @/pages/ServiceReport/index.tsx
+  namespace ServiceReport {
+    interface ServiceReportTableColumns {
+      [name: string]: string
+    }
   }
 
   // 添加委托
