@@ -107,6 +107,8 @@ export interface DelegationInfoBase {
   userRequire?: string
 }
 
+// 维修模块
+// region
 export interface RepairInfoBase {
   // 委托id
   commissionId: number,
@@ -119,6 +121,16 @@ export interface RepairInfoBase {
   // 维修站
   repairStation: string,
 }
+
+export interface RepairDetailInfo extends RepairInfoBase{
+  // 创建时间
+  createTime: string
+  // 维修单id
+  id: number
+  // 维修状态 0-待维修 1-维修中 2-已维修
+  state: number
+}
+// endregion
 
 export namespace ApiData {
   // 用户登录信息
