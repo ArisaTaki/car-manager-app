@@ -121,10 +121,13 @@ export interface RepairInfoBase {
 }
 
 export interface PartInfoBase {
+  id: number;
   // 创建人id（当前登录）
   createBy?: number,
   // 创建人姓名（当前登录）
   createName?: string,
+  //创建零件时间
+  createTime:string,
   // 零件名称
   name?: string,
   // 价位
@@ -357,7 +360,7 @@ export namespace ApiData {
   // 分页查询零件列表
   namespace SearchPartList {
 
-    import GetPartDetailProps = ApiData.getPartDetail.GetPartDetailProps;
+    import GetPartDetailProps = ApiData.GetPartDetail.GetPartDetailProps;
 
     interface Params {
       // 当前页，默认第一页,示例值(1)
