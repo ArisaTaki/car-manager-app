@@ -1,5 +1,3 @@
-import { ECBasicOption } from 'echarts/types/dist/shared';
-
 export interface BaseResponse<T = any> {
   // 返回message
   message: string
@@ -107,6 +105,19 @@ export interface DelegationInfoBase {
   userName: string;
   // 用户留言要求
   userRequire?: string
+}
+
+export interface RepairInfoBase {
+  // 委托id
+  commissionId: number,
+  // 创建人
+  createBy: number,
+  // 创建人名称
+  createName: string,
+  // 维修时间
+  repairDate: string,
+  // 维修站
+  repairStation: string,
 }
 
 export namespace ApiData {
@@ -218,6 +229,7 @@ export namespace ApiData {
     type ResponseData = BaseResponse<DelegationDetails>;
   }
 
+  // 获取委托列表
   namespace GetDelegationList {
     interface Params {
       keyword?: string
@@ -235,6 +247,7 @@ export namespace ApiData {
     type ResponseData = BaseResponse<ResponseDataDetail<DelegationListItem>>;
   }
 
+  // 更新委托
   namespace UpdateDelegation {
     interface Params extends DelegationInfoBase {
       // 创建人id
@@ -243,6 +256,62 @@ export namespace ApiData {
       id: number;
     }
 
+    type ResponseData = BaseResponse;
+  }
+
+  // 创建维修
+  namespace AddRepair {
+    type Params = RepairInfoBase;
+    type ResponseData = BaseResponse;
+  }
+
+  // 查询维修详情
+  namespace GetRepairDetail {
+    interface Params {
+      // 维修id
+      id: number
+    }
+
+    export interface RepairDetailInfo extends RepairInfoBase{
+      // 创建时间
+      createTime: string
+      // 维修单id
+      id: number
+      // 维修状态 0-待维修 1-维修中 2-已维修
+      state: number
+    }
+
+    type ResponseData = BaseResponse<RepairDetailInfo>;
+  }
+
+  // 分页查询维修列表
+  namespace SearchRepairList {
+    import RepairDetailInfo = ApiData.GetRepairDetail.RepairDetailInfo;
+
+    interface Params {
+      // 当前页，默认第一页,示例值(1)
+      pageIndex?: number,
+      // 每页显示条数，默认20,示例值(20)
+      pageSize?: number,
+      // 维修状态 0-待维修 1-维修中 2-已维修 null-全部
+      state?: number
+    }
+
+    export interface ResponseDataDetail<T> {
+      list: T[],
+      pages: number,
+      total: number,
+    }
+
+    type ResponseData = BaseResponse<ResponseDataDetail<RepairDetailInfo>>;
+  }
+
+  // 更新维修状态
+  namespace UpdateRepairState {
+    interface Params {
+      id: number,
+      state: number
+    }
     type ResponseData = BaseResponse;
   }
 }

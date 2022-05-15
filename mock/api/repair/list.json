@@ -1,0 +1,51 @@
+{
+  "code": "200",
+  "data": {
+    "list": [
+      {
+        "commissionId": 1,
+        "createBy": 1,
+        "createName": "xxx",
+        "createTime": "2022/01/01",
+        "id": 1,
+        "repairDate": "2022/01/02",
+        "repairStation": "维修站",
+        "state": 0
+      },
+      {
+        "commissionId": 2,
+        "createBy": 1,
+        "createName": "xxx",
+        "createTime": "2022/01/01",
+        "id": 2,
+        "repairDate": "2022/01/02",
+        "repairStation": "维修站",
+        "state": 1
+      },
+      {
+        "commissionId": 3,
+        "createBy": 3,
+        "createName": "xxx",
+        "createTime": "2022/01/01",
+        "id": 3,
+        "repairDate": "2022/01/02",
+        "repairStation": "维修站",
+        "state": 2
+      },
+      {
+        "commissionId": 4,
+        "createBy": 4,
+        "createName": "xxx",
+        "createTime": "2022/01/01",
+        "id": 4,
+        "repairDate": "2022/01/02",
+        "repairStation": "维修站",
+        "state": 0
+      }
+    ],
+    "pages": 1,
+    "total": 4
+  },
+  "message": "",
+  "successful": true
+}

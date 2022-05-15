@@ -14,4 +14,9 @@ export const ApiPaths = {
   getDelegationDetailInfo: '/api/commission/detail',
   getDelegationList: '/api/commission/list',
   updateDelegation: '/api/commission/update',
+  addRepair: '/api/repair/add',
+  getRepairDetail: '/api/repair/detail',
+  getRepairList: '/api/repair/list',
+  updateRepairState: '/api/repair/update-state',
+
 };

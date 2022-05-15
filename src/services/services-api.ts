@@ -46,4 +46,16 @@ export const ServicesApi = {
 
   UpdateDelegation: (params: ApiData.UpdateDelegation.Params):
   Promise<ApiData.UpdateDelegation.ResponseData> => post(ApiPaths.updateDelegation, params),
+
+  AddRepair: (params: ApiData.AddRepair.Params):
+  Promise<ApiData.AddRepair.ResponseData> => post(ApiPaths.addRepair, params),
+
+  GetRepairDetail: (params: ApiData.GetRepairDetail.Params):
+  Promise<ApiData.GetRepairDetail.ResponseData> => post(ApiPaths.getRepairDetail, params),
+
+  SearchRepairList: (params: ApiData.SearchRepairList.Params):
+  Promise<ApiData.SearchRepairList.ResponseData> => post(ApiPaths.getRepairList, params),
+
+  UpdateRepairState: (params: ApiData.UpdateRepairState.Params):
+  Promise<ApiData.UpdateRepairState.ResponseData> => post(ApiPaths.updateRepairState, params),
 };

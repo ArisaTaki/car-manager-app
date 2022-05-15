@@ -1,0 +1,15 @@
+{
+  "code": "200",
+  "data": {
+    "commissionId": 1,
+    "createBy": 1,
+    "createName": "约尔",
+    "createTime": "2022/01/01",
+    "id": 1,
+    "repairDate": "2022/01/02",
+    "repairStation": "维修站",
+    "state": 0
+  },
+  "message": "",
+  "successful": true
+}
