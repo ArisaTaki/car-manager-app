@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Spin, Card, Tag } from 'antd';
+import {
+  Spin, Card, Tag, Descriptions,
+} from 'antd';
 import { RepairDetailInfo } from '@/services/entities';
 import { ServicesApi } from '@/services/services-api';
 
@@ -21,41 +23,27 @@ const CarFixDetail: React.FC<RepairInfoProps> = ({ repairDetailInfo }) => {
   }, []);
 
   const StateFormatter = (state: number) => {
-    let stateText: string;
     switch (state) {
-      case 0: stateText = '待维修'; break;
-      case 1: stateText = '维修中'; break;
-      case 2: stateText = '已维修'; break;
-      default: stateText = '异常'; break;
+      case 0:
+        return <>待维修</>;
+      case 1:
+        return <>维修中</>;
+      case 2:
+        return <>已维修</>;
+      default:
+        return <></>;
     }
-    return (
-      <span>{ stateText }</span>
-    );
   };
   return (
     <Spin spinning={detailLoading}>
       {info ? (
-        <Card style={{ width: '100%' }}>
-          <p>
-            <Tag style={{ width: 100 }}>创建人名称</Tag>
-            <span>{ info.createName }</span>
-          </p>
-          <p>
-            <Tag style={{ width: 100 }}>维修时间</Tag>
-            <span>{ info.repairDate }</span>
-          </p>
-          <p>
-            <Tag style={{ width: 100 }}>维修站</Tag>
-            <span>{ info.repairStation }</span>
-          </p>
-          <p>
-            <Tag style={{ width: 100 }}>状态</Tag>
-            <span>
-              { StateFormatter(info?.state) }
-            </span>
-          </p>
-        </Card>
-      ) : null }
+        <Descriptions title="详细信息" layout="vertical" bordered>
+          <Descriptions.Item label="创建人名称">{info.createName}</Descriptions.Item>
+          <Descriptions.Item label="维修时间">{info.createTime}</Descriptions.Item>
+          <Descriptions.Item label="维修站">{info.repairStation}</Descriptions.Item>
+          <Descriptions.Item label="状态">{StateFormatter(info.state)}</Descriptions.Item>
+        </Descriptions>
+      ) : null}
     </Spin>
   );
 };
