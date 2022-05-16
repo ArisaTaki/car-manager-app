@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import {
-  Button, Dropdown, Menu, message, Modal, PageHeader, Space, Spin, Table,
+  Button, message, Modal, PageHeader, Spin, Table,
 } from 'antd';
-import { DeleteFilled, DownOutlined, LoadingOutlined } from '@ant-design/icons';
+import { DeleteFilled, LoadingOutlined } from '@ant-design/icons';
 import Search from 'antd/es/input/Search';
 import { ColumnsType } from 'antd/lib/table';
 import { TableAction, TablePaginationConfig } from 'antd/lib/table/interface';
+import moment from 'moment';
 import { ServicesApi } from '@/services/services-api';
 import styles from './style.module.scss';
 import { PartInfoBase } from '@/services/entities';
@@ -32,6 +33,24 @@ const Quotation: React.FC = () => {
   const [paginationData, setPaginationData] = useState<PaginationProps>();
   const [chooseIndex, setChooseIndex] = useState<number>();
   const [delConfirmFlag, setDelConfirmFlag] = useState(false);
+  const [getDataLoading, setGetDataLoading] = useState(false);
+
+  const getPartListMethod = () => {
+    setLoading(true);
+    SearchPartList({ pageIndex: 1, pageSize: 10, keyword: '' }).then((res) => {
+      setLoading(false);
+      setPartList(res.data.list);
+      setPaginationData({
+        pageSize: 10,
+        current: 1,
+        total: res.data.total,
+      });
+    });
+  };
+
+  useEffect(() => {
+    getPartListMethod();
+  }, []);
 
   const onSearch = (value: string) => {
     if (value) {
@@ -44,7 +63,13 @@ const Quotation: React.FC = () => {
           pageSize: paginationData?.pageSize,
         },
       ).then((res) => {
+        setPartList(res.data.list);
         setLoading(false);
+        setPaginationData({
+          pageSize: 10,
+          current: 1,
+          total: res.data.total,
+        });
       });
     }
   };
@@ -76,16 +101,11 @@ const Quotation: React.FC = () => {
     setPaginationData({ ...paginationData, current: 1, pageSize: 10 });
     getPartListMethod();
   };
-  const getPartListMethod = () => {
-    SearchPartList({ pageIndex: 1, pageSize: 20 }).then((res) => {
-      setLoading(false);
-      setPartList(res.data.list);
-    });
-  };
+
   const closeModal = (closeOnly?: boolean) => {
     setShowAddOrEditModal(false);
     if (!closeOnly) {
-      getPartListMethod();
+      resetAllData();
     }
   };
   const delEventOk = () => {
@@ -109,6 +129,9 @@ const Quotation: React.FC = () => {
       title: '创建时间',
       dataIndex: 'createTime',
       key: 'createTime',
+      render: (text) => (
+        <span>{moment(text).format('YYYY年MM月DD日')}</span>
+      ),
     },
     {
       title: '零件名称',
@@ -127,11 +150,13 @@ const Quotation: React.FC = () => {
       render: (text, item) => (
         <div className={cx('operate-buttons')}>
           <Button
+            disabled={getDataLoading}
             type="default"
             onClick={() => {
+              setGetDataLoading(true);
               GetPartDetail({ id: item.id }).then((res) => {
+                setGetDataLoading(false);
                 const { data } = res;
-                console.log(data);
                 setEditData({ ...data, id: item.id });
                 setIsEdit(true);
                 setShowAddOrEditModal(true);
@@ -163,9 +188,6 @@ const Quotation: React.FC = () => {
     total: paginationData?.total,
   };
   const loadingIcon = () => <LoadingOutlined style={{ fontSize: 24 }} spin />;
-  useEffect(() => {
-    getPartListMethod();
-  }, []);
   return (
     <>
       {showAddOrEditModal ? (

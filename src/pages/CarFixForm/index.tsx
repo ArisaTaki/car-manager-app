@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import {
-  PageHeader, Table, Button, Modal, Form, Spin, Space, Dropdown, Menu, message,
+  PageHeader, Table, Button, Modal, Spin, Space, Dropdown, Menu, message,
 } from 'antd';
 import { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { DownOutlined } from '@ant-design/icons';
@@ -14,18 +14,11 @@ import { ServicesApi } from '@/services/services-api';
 import CarFixDetail from './components/CarFixDetail';
 
 const cx = classNames.bind(styles);
-const { UpdateRepairState, GetRepairDetail } = ServicesApi;
+const { UpdateRepairState } = ServicesApi;
 interface PaginationProps {
-  pageSize: number,
-  current: number,
+  pageSize?: number,
+  current?: number,
   total?: number,
-}
-
-interface MenuItemProps {
-  key: string;
-  keyPath: string[];
-  item: React.ReactInstance;
-  domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
 }
 
 const CarFixForm: React.FC = () => {
@@ -36,7 +29,6 @@ const CarFixForm: React.FC = () => {
   });
   const [repairList, setRepairList] = useState<RepairDetailInfo[]>([]);
   const [tableLoading, setTableLoading] = useState<boolean>(true);
-  const [buttonLoading, setButtonLoading] = useState<boolean>(false);
   const [detailModalVisible, setDetailModalVisible] = useState<boolean>(false);
   const [repairDetailInfo, setRepairDetailInfo] = useState<RepairDetailInfo>();
   const [delConfirmFlag, setDelConfirmFlag] = useState<boolean>(false);
@@ -82,19 +74,22 @@ const CarFixForm: React.FC = () => {
       dataIndex: 'action',
       render: (text, item) => (
         <>
-          {/* eslint-disable-next-line max-len */}
-          {/* { item.state !== 1 ? (<Spin spinning={buttonLoading}><Button style={{ width: 100 }}>去维修</Button></Spin>) : null } */}
-          {/* eslint-disable-next-line max-len */}
-          {/* { item.state === 1 ? (<Spin spinning={buttonLoading}><Button style={{ width: 100 }}>维修完成</Button></Spin>) : null } */}
           <Space>
-            <Dropdown overlay={switchRepairStation(item.state)} trigger={['click']}>
-              <Button type="primary" onClick={() => { setListItemId(item.id); }}>
-                <Space>
-                  维修状态变更
-                  <DownOutlined />
-                </Space>
-              </Button>
-            </Dropdown>
+            {getUser().type === 3 || getUser().type === 0 ? (
+              <Dropdown overlay={switchRepairStation(item.state)} trigger={['click']}>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    setListItemId(item.id);
+                  }}
+                >
+                  <Space>
+                    维修状态变更
+                    <DownOutlined />
+                  </Space>
+                </Button>
+              </Dropdown>
+            ) : null}
             <Button type="primary" onClick={() => { getRepairDetail(item); }}>详情</Button>
           </Space>
         </>
@@ -177,6 +172,7 @@ const CarFixForm: React.FC = () => {
         id: listItemId!,
         state: 1,
       }).then((res) => {
+        getTableList(paginationData);
         message.success(res.message);
       });
     } else {
@@ -184,6 +180,7 @@ const CarFixForm: React.FC = () => {
         id: listItemId!,
         state: 2,
       }).then((res) => {
+        getTableList(paginationData);
         message.success(res.message);
       });
     }
@@ -192,12 +189,8 @@ const CarFixForm: React.FC = () => {
   // 跟新分页配置
   const changePage = (pagination: TablePaginationConfig): void => {
     if (pagination.pageSize === paginationData.pageSize) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       getTableList({ ...pagination, current: pagination.current });
     } else {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       getTableList({ ...pagination, current: 1, pageSize: pagination.pageSize });
     }
   };
@@ -209,7 +202,6 @@ const CarFixForm: React.FC = () => {
   });
   // 列表初始化
   useEffect(() => {
-    // debugger; //eslint-disable-line
     getTableList(paginationData);
   }, []);
   return (
@@ -225,7 +217,7 @@ const CarFixForm: React.FC = () => {
         <Table
           columns={columns}
           dataSource={repairList}
-          rowKey="commissionId"
+          rowKey="id"
           pagination={{
             ...paginationProps,
           }}

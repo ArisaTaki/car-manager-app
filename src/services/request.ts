@@ -6,7 +6,7 @@ import { moveToSystemError403Page, redirectToLoginPageWithOutDelay } from '@/hel
 import history from '@/utils/getHistory';
 
 if (process.env.NODE_ENV === 'development') {
-  axios.defaults.baseURL = mockApiPath;
+  axios.defaults.baseURL = onlineApiPath;
 }
 if (process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = onlineApiPath;

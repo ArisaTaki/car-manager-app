@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import {
-  Button, Form, Input, message, Modal, Radio, RadioChangeEvent, Spin,
+  Button, Form, Input, message, Modal, RadioChangeEvent, Spin,
 } from 'antd';
 import moment from 'moment';
 import styles from './style.module.scss';
@@ -59,7 +59,9 @@ const UpdateOrAddPart: React.FC<PartAddOrEditProps> = ({
   const onFinish = (values: any) => {
     setPending(true);
     if (isEdit) {
-      UpdatePartInfo({ ...values, userId: initData?.id, updateBy: userInfo?.userId }).then(
+      UpdatePartInfo({
+        ...values, id: initData?.id, updateBy: userInfo?.userId, updateName: userInfo?.userName,
+      }).then(
         (res) => {
           message.success(res.message);
           setPending(false);

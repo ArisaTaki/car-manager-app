@@ -11,14 +11,16 @@ import {
 import { ColumnsType } from 'antd/es/table';
 import { TableAction, TablePaginationConfig } from 'antd/lib/table/interface';
 import Search from 'antd/es/input/Search';
+import moment from 'moment';
 import history from '@/utils/getHistory';
 import styles from './style.module.scss';
 import { ServicesApi } from '@/services/services-api';
-import { DelegationListItem, UpdateDelegationInfo } from '@/services/entities';
+import { DelegationListItem, UpdateDelegationInfoByMoment } from '@/services/entities';
 import { getUser } from '@/utils/storageUtils';
 import { formatServiceState } from '@/utils/ServiceState';
 import TagStatus from '@/pages/ServiceDelegation/components/TagStatus';
 import UpdateOrAddDelegation from '@/pages/ServiceDelegation/components/UpdateOrAddDelegation';
+import AddFixForm from '@/pages/ServiceDelegation/components/AddFixForm';
 
 const cx = classNames.bind(styles);
 
@@ -52,12 +54,14 @@ const ServiceDelegation: React.FC = () => {
   const [keyword, setKeyWord] = useState('');
   const [isEdit, setIsEdit] = useState(false);
   const [showAddOrEditModal, setShowAddOrEditModal] = useState(false);
-  const [editData, setEditData] = useState<UpdateDelegationInfo>();
+  const [editData, setEditData] = useState<UpdateDelegationInfoByMoment>();
   const [state, setState] = useState<number>();
   const [openChangeStatusModal, setOpenChangeStatusModal] = useState(false);
   const [showTextarea, setShowTextArea] = useState(false);
   const [notPassReason, setNotPassReason] = useState('');
   const [checkStatus, setCheckStatus] = useState(1);
+  const [getDataLoading, setGetDataLoading] = useState(false);
+  const [showFixFormFlag, setShowFixFormFlag] = useState(false);
 
   const onSearch = (value: string) => {
     if (value) {
@@ -77,7 +81,8 @@ const ServiceDelegation: React.FC = () => {
     }
   };
 
-  const getUserListMethod = () => {
+  const getDelegationListMethod = () => {
+    setLoading(true);
     SearchDelegations({
       pageSize: 10, pageIndex: 1, keyword: '', state: undefined,
     })
@@ -95,7 +100,7 @@ const ServiceDelegation: React.FC = () => {
   };
 
   useEffect(() => {
-    getUserListMethod();
+    getDelegationListMethod();
   }, []);
 
   const columns: ColumnsType<DelegationListItem> = [
@@ -108,11 +113,17 @@ const ServiceDelegation: React.FC = () => {
       title: '故障日期',
       dataIndex: 'bugDate',
       key: 'bugDate',
+      render: (text) => (
+        <span>{moment(text).format('YYYY年MM月DD日')}</span>
+      ),
     },
     {
       title: '购买日期',
       key: 'buyDate',
       dataIndex: 'buyDate',
+      render: (text) => (
+        <span>{moment(text).format('YYYY年MM月DD日')}</span>
+      ),
     },
     {
       title: '状态',
@@ -136,16 +147,20 @@ const ServiceDelegation: React.FC = () => {
         ((getUser().type === 0 || getUser().type === 1) && item.state === 0) ? (
           <div className={cx('operate-buttons')}>
             <Button
+              disabled={getDataLoading}
               type="default"
               onClick={() => {
+                setGetDataLoading(true);
                 GetDelegationDetailInfo({ id: item.id }).then((res) => {
+                  setGetDataLoading(false);
                   const {
                     // eslint-disable-next-line @typescript-eslint/no-shadow
-                    createTime, reason, state, ...rest
+                    bugDate, buyDate, createTime, reason, state, ...rest
                   } = res.data;
-                  console.log(rest);
                   setEditData({
                     ...rest,
+                    bugDate: moment(bugDate),
+                    buyDate: moment(buyDate),
                     id: item.id,
                     updateBy: getUser().userId,
                     updateName: getUser().userName,
@@ -184,6 +199,7 @@ const ServiceDelegation: React.FC = () => {
         ) : (getUser().type === 2 || getUser().type === 0) ? (
           <div>
             <Button
+              style={{ marginRight: 5 }}
               type="primary"
               onClick={() => {
                 setChooseIndex(item.id);
@@ -192,6 +208,17 @@ const ServiceDelegation: React.FC = () => {
             >
               变更状态
             </Button>
+            {item.state === 1 ? (
+              <Button
+                type="default"
+                onClick={() => {
+                  setChooseIndex(item.id);
+                  setShowFixFormFlag(true);
+                }}
+              >
+                新建维修单
+              </Button>
+            ) : null}
           </div>
         ) : <span>{(item.state === 0 || getUser().type !== 1) ? '您当前的账号权限不足' : '当前状态无法进行操作'}</span>
       ),
@@ -210,8 +237,12 @@ const ServiceDelegation: React.FC = () => {
   const closeModal = (closeOnly?: boolean) => {
     setShowAddOrEditModal(false);
     if (!closeOnly) {
-      getUserListMethod();
+      getDelegationListMethod();
     }
+  };
+
+  const closeFixModal = () => {
+    setShowFixFormFlag(false);
   };
 
   const loadingIcon = () => <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -222,7 +253,7 @@ const ServiceDelegation: React.FC = () => {
     DeleteDelegation({ id: chooseIndex! }).then((res) => {
       console.log(res);
       message.success(res.message);
-      getUserListMethod();
+      getDelegationListMethod();
     }).catch((err) => {
       setLoading(false);
       setDelConfirmFlag(false);
@@ -257,7 +288,7 @@ const ServiceDelegation: React.FC = () => {
     setKeyWord('');
     setState(undefined);
     setPaginationData({ ...paginationData, current: 1, pageSize: 10 });
-    getUserListMethod();
+    getDelegationListMethod();
   };
 
   const findRoleUserList = (index: number) => {
@@ -284,6 +315,7 @@ const ServiceDelegation: React.FC = () => {
       setOpenChangeStatusModal(false);
       setCheckStatus(1);
       setNotPassReason('');
+      getDelegationListMethod();
     });
   };
 
@@ -297,6 +329,15 @@ const ServiceDelegation: React.FC = () => {
           visible={showAddOrEditModal}
           isEdit={isEdit}
           closeEvent={closeModal}
+        />
+      ) : null}
+      {showFixFormFlag ? (
+        <AddFixForm
+          commissionId={chooseIndex!}
+          createBy={getUser().userId}
+          createName={getUser().userName}
+          visible={showFixFormFlag}
+          closeEvent={closeFixModal}
         />
       ) : null}
       <Modal
@@ -322,7 +363,11 @@ const ServiceDelegation: React.FC = () => {
           {showTextarea ? (
             <>
               <div style={{ margin: '0 8px', fontWeight: 'bold', marginTop: 10 }}>不通过原因</div>
-              <Input.TextArea style={{ margin: '0 8px' }} value={notPassReason} />
+              <Input.TextArea
+                onChange={(e) => { setNotPassReason(e.target.value); }}
+                style={{ margin: '0 8px' }}
+                value={notPassReason}
+              />
             </>
           ) : null}
         </div>
@@ -396,7 +441,6 @@ const ServiceDelegation: React.FC = () => {
                 style={{ marginRight: 10 }}
                 type="primary"
                 onClick={() => {
-                  console.log('新增用户');
                   setShowAddOrEditModal(true);
                   setIsEdit(false);
                 }}
@@ -407,7 +451,8 @@ const ServiceDelegation: React.FC = () => {
                 type="default"
                 icon={<DeleteFilled />}
                 onClick={resetAllData}
-                disabled={keyword === '' && !state && paginationData?.current === 1 && paginationData.pageSize === 10}
+                disabled={!state
+                && state !== 0 && paginationData?.current === 1 && paginationData.pageSize === 10}
               >
                 重置
               </Button>

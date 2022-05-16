@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import {
-  Button, Form, Input, Modal, Radio, RadioChangeEvent, Spin,
+  Button, Form, Input, message, Modal, Radio, RadioChangeEvent, Spin,
 } from 'antd';
 import styles from './style.module.scss';
 import { AddUserInfo, UserInfoDetails } from '@/services/entities';
@@ -62,6 +62,7 @@ const UpdateOrAddUser: React.FC<UserAddOrEditProps> = ({
     setPending(true);
     if (isEdit) {
       UpdateUser({ ...values, userId: initData?.userId }).then((res) => {
+        message.success(res.message);
         setPending(false);
         if (closeEvent) {
           closeEvent(false);
@@ -71,6 +72,7 @@ const UpdateOrAddUser: React.FC<UserAddOrEditProps> = ({
       });
     } else {
       AddUser({ ...values, createBy }).then((res) => {
+        message.success(res.message);
         setPending(false);
         if (closeEvent) {
           closeEvent(false);
@@ -119,7 +121,9 @@ const UpdateOrAddUser: React.FC<UserAddOrEditProps> = ({
                 <Radio.Group onChange={onChange} value={type}>
                   <Radio value={0}>管理员</Radio>
                   <Radio value={1}>客服</Radio>
-                  <Radio value={2}>经理</Radio>
+                  <Radio value={2}>顾问</Radio>
+                  <Radio value={3}>经理</Radio>
+                  <Radio value={4}>稽查处</Radio>
                 </Radio.Group>
               </Form.Item>
             </>

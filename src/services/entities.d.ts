@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export interface BaseResponse<T = any> {
   // 返回message
   message: string
@@ -75,6 +77,31 @@ export interface DelegationListItem extends DelegationInfoBase {
   id: number;
 }
 
+export interface DelegationInfoBaseByMoment {
+  // 故障地址
+  bugAddress?: string;
+  // 故障日期
+  bugDate?: Moment;
+  // 故障描述
+  bugDescription: string;
+  // 购买日期
+  buyDate?: Moment;
+  // 汽车型号
+  carModel: string;
+  // 创建人名称
+  createName?: string;
+  // 用户邮箱
+  email?: string;
+  // 用户电话
+  phone: string;
+  // 审核状态
+  state?: number;
+  // 用户名称
+  userName: string;
+  // 用户留言要求
+  userRequire?: string
+}
+
 export interface DelegationInfoBase {
   // 故障地址
   bugAddress?: string;
@@ -104,17 +131,26 @@ export interface DelegationInfoBase {
 // region
 export interface RepairInfoBase {
   // 委托id
-  commissionId: number,
+  commissionId?: number,
   // 创建人
-  createBy: number,
+  createBy?: number,
   // 创建人名称
-  createName: string,
+  createName?: string,
   // 维修时间
   repairDate: string,
   // 维修站
   repairStation: string,
 }
 export interface UpdateDelegationInfo extends DelegationInfoBase {
+  // 更新人id
+  updateBy: number;
+  // 更新人name
+  updateName: string;
+  // 委托id
+  id: number;
+}
+
+export interface UpdateDelegationInfoByMoment extends DelegationInfoBaseByMoment {
   // 更新人id
   updateBy: number;
   // 更新人name
@@ -224,9 +260,6 @@ export namespace ApiData {
 
   // 服务报告 src: @/pages/ServiceReport/index.tsx
   namespace ServiceReport {
-    interface ServiceReportTableColumns {
-      [name: string]: string
-    }
   }
 
   // 添加委托

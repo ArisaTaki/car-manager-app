@@ -37,6 +37,7 @@ const User: React.FC = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [showAddOrEditModal, setShowAddOrEditModal] = useState(false);
   const [editData, setEditData] = useState<UserInfoDetails>();
+  const [getDataLoading, setGetDataLoading] = useState(false);
   const [type, setType] = useState<number>();
 
   const onSearch = (value: string) => {
@@ -58,6 +59,7 @@ const User: React.FC = () => {
   };
 
   const getUserListMethod = () => {
+    setLoading(true);
     SearchUsers({
       pageSize: 10, pageIndex: 1, keyword: '', type: undefined,
     })
@@ -75,6 +77,7 @@ const User: React.FC = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     getUserListMethod();
   }, []);
 
@@ -117,15 +120,17 @@ const User: React.FC = () => {
       render: (text, item) => (
         <div className={cx('operate-buttons', { owner: getUser().userId === item.userId })}>
           <Button
+            disabled={getDataLoading}
             type="default"
             onClick={() => {
+              setGetDataLoading(true);
               GetUserDetail({ userId: item.userId }).then((res) => {
+                setGetDataLoading(false);
                 const { data } = res;
                 setEditData({ ...data, userId: item.userId });
                 setIsEdit(true);
                 setShowAddOrEditModal(true);
               });
-              console.log('编辑页');
             }}
           >
             编辑
@@ -330,7 +335,8 @@ const User: React.FC = () => {
                 type="default"
                 icon={<DeleteFilled />}
                 onClick={resetAllData}
-                disabled={keyword === '' && !type && paginationData?.current === 1 && paginationData.pageSize === 10}
+                disabled={!type
+                && type !== 0 && paginationData?.current === 1 && paginationData.pageSize === 10}
               >
                 重置
               </Button>

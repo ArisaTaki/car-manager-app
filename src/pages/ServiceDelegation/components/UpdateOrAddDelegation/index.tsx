@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import {
-  Button, Form, Input, Modal, Spin,
+  Button, DatePicker, Form, Input, message, Modal, Spin,
 } from 'antd';
 import styles from './style.module.scss';
 import {
-  AddDelegationInfo, UpdateDelegationInfo,
+  AddDelegationInfo, UpdateDelegationInfo, UpdateDelegationInfoByMoment,
 } from '@/services/entities';
 import { ServicesApi } from '@/services/services-api';
 
 const cx = classNames.bind(styles);
 
 export interface DelegationAddOrEditProps {
-  initData?: UpdateDelegationInfo;
+  initData?: UpdateDelegationInfoByMoment;
   isEdit?: boolean;
   visible?: boolean;
   closeEvent?: (closeOnly?: boolean) => void;
@@ -68,6 +68,7 @@ const UpdateOrAddDelegation: React.FC<DelegationAddOrEditProps> = ({
           updateName: initData?.updateName,
         },
       ).then((res) => {
+        message.success(res.message);
         setPending(false);
         if (closeEvent) {
           closeEvent(false);
@@ -77,6 +78,7 @@ const UpdateOrAddDelegation: React.FC<DelegationAddOrEditProps> = ({
       });
     } else {
       AddDelegation({ ...values, createBy, createName }).then((res) => {
+        message.success(res.message);
         setPending(false);
         if (closeEvent) {
           closeEvent(false);
@@ -104,14 +106,14 @@ const UpdateOrAddDelegation: React.FC<DelegationAddOrEditProps> = ({
           <Form.Item name="bugAddress" label="故障地址">
             <Input />
           </Form.Item>
-          <Form.Item name="bugDate" label="故障日期">
-            <Input />
+          <Form.Item name="bugDate" label="故障日期" rules={[{ required: true }]}>
+            <DatePicker />
           </Form.Item>
           <Form.Item name="bugDescription" label="故障描述" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
           <Form.Item name="buyDate" label="购买日期">
-            <Input />
+            <DatePicker />
           </Form.Item>
           <Form.Item name="carModel" label="汽车型号" rules={[{ required: true }]}>
             <Input />
@@ -119,10 +121,10 @@ const UpdateOrAddDelegation: React.FC<DelegationAddOrEditProps> = ({
           <Form.Item name="email" label="用户邮箱">
             <Input />
           </Form.Item>
-          <Form.Item name="phone" label="用户电话">
+          <Form.Item name="phone" label="用户电话" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item name="userName" label="用户名称">
+          <Form.Item name="userName" label="用户名称" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
           <Form.Item name="userRequire" label="用户要求">
