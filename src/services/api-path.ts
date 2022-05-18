@@ -1,27 +1,62 @@
 const baseUrl = process.env.NODE_ENV === 'production' ? '' : '/mock';
 
 export const ApiPaths = {
+  // 登录
   login: '/api/user/login',
+  // 追加用户
   addUser: '/api/account/add',
+  // 删除用户
   delUser: '/api/account/delete',
+  // 获得用户详情
   getUserDetail: '/api/account/detail',
+  // 分页查询用户
   SearchUsers: '/api/account/list',
+  // 更新用户
   UpdateUser: '/api/account/update',
+  // 获取echarts数据（mock）
   getEchartsData: '/api/charts',
+  // 获取echarts数据（mock）
   getChartsMoneyData: '/api/chartMoney',
+  // 追加委托
   addDelegation: '/api/commission/add',
+  // 审核委托
   checkDelegation: '/api/commission/audit',
+  // 删除委托
   deleteDelegation: '/api/commission/delete',
+  // 获得委托详情
   getDelegationDetailInfo: '/api/commission/detail',
+  // 获得委托列表
   getDelegationList: '/api/commission/list',
+  // 更新委托
   updateDelegation: '/api/commission/update',
+  // 追加维修
   addRepair: '/api/repair/add',
+  // 获得维修单详情
   getRepairDetail: '/api/repair/detail',
+  // 分页获得维修单列表
   getRepairList: '/api/repair/list',
+  // 更新维修状态
   updateRepairState: '/api/repair/update-state',
+  // 创建维修部件报价
   addPart: '/api/part/add',
+  // 删除维修部件
   deletePart: '/api/part/delete',
+  // 获得维修部件详情
   getPartDetail: '/api/part/detail',
+  // 分页获取维修部件列表
   getPartList: '/api/part/list',
+  // 更新维修部件
   updatePart: '/api/part/update',
+  // 获得统计数据
+  getStat: '/api/stat/stat',
+  // 生成维修报告单
+  addReport: '/api/report/add',
+  // 查询维修报告单
+  searchReports: '/api/report/list',
+  // 创建回访
+  addVisitRecord: '/api/visit-record/add',
+  // 获取回访详情
+  getVisitRecordDetail: '/api/visit-record/detail',
+  // 分页查询回访列表
+  searchVisitRecordList: '/api/visit-record/list',
 };

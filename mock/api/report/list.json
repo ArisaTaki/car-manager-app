@@ -1,0 +1,48 @@
+{
+  "code": "",
+  "data": {
+    "list": [
+      {
+        "id": 1,
+        "mockOne": "string",
+        "mockTwo": "string",
+        "mockThree": "string",
+        "mockFour": "string",
+        "mockFive": "string",
+        "mockSix": "string",
+        "mockSeven": "string",
+        "mockEight": "string",
+        "mockNine": "string",
+        "mockTen": "string"
+      },{
+        "id": 2,
+        "mockOne": "string",
+        "mockTwo": "string",
+        "mockThree": "string",
+        "mockFour": "string",
+        "mockFive": "string",
+        "mockSix": "string",
+        "mockSeven": "string",
+        "mockEight": "string",
+        "mockNine": "string",
+        "mockTen": "string"
+      },{
+        "id": 3,
+        "mockOne": "string",
+        "mockTwo": "string",
+        "mockThree": "string",
+        "mockFour": "string",
+        "mockFive": "string",
+        "mockSix": "string",
+        "mockSeven": "string",
+        "mockEight": "string",
+        "mockNine": "string",
+        "mockTen": "string"
+      }
+    ],
+    "pages": 0,
+    "total": 0
+  },
+  "message": "",
+  "successful": true
+}

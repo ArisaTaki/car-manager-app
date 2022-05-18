@@ -185,6 +185,48 @@ export interface RepairDetailInfo extends RepairInfoBase{
   state: number
 }
 
+export interface StatInfo {
+  // 日期
+  date: string;
+  // 维修单数
+  repairCount: string;
+  // 总的维修价格
+  totalPrice: string;
+}
+
+export interface GetReportDetailProps {
+  id: number,
+  mockOne: string,
+  mockTwo: string,
+  mockThree: string,
+  mockFour: string,
+  mockFive: string,
+  mockSix: string,
+  mockSeven: string,
+  mockEight: string,
+  mockNine: string,
+  mockTen: string,
+}
+
+export interface GetVisitRecordDetailProps {
+  // 委托id
+  commissionId: number,
+  // 创建人id
+  createBy: number,
+  // 创建人名称
+  createName: string,
+  // 创建时间
+  createTime: string,
+  // 维修单id
+  id: number,
+  // 维修日期
+  repairDate: string,
+  // 维修站
+  repairStation: string,
+  // 维修状态 0-待维修 1-维修中 2-已维修
+  state: number,
+}
+
 export namespace ApiData {
   // 用户登录信息
   namespace Login {
@@ -251,15 +293,6 @@ export namespace ApiData {
     }
 
     type ResponseData = BaseResponse;
-  }
-
-  // charts的数据
-  namespace ChartsDataApiMockName {
-    type ResponseData = BaseResponse<ResponseDataCharts>;
-  }
-
-  // 服务报告 src: @/pages/ServiceReport/index.tsx
-  namespace ServiceReport {
   }
 
   // 添加委托
@@ -334,6 +367,7 @@ export namespace ApiData {
       id: number
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     export interface RepairDetailInfo extends RepairInfoBase{
       // 创建时间
       createTime: string
@@ -439,5 +473,91 @@ export namespace ApiData {
     }
 
     type ResponseData = BaseResponse;
+  }
+
+  // 获取统计数据
+  namespace GetStatInfo {
+    interface Params {
+      // 开始日期
+      beginDate: string;
+      // 结束日期
+      endDate: string;
+    }
+
+    type ResponseData = BaseResponse<StatInfo[]>;
+  }
+
+  // 生成维修报告单
+  namespace AddReport {
+    interface Params {
+      // 维修单号
+      id: number
+    }
+
+    type ResponseData = BaseResponse;
+  }
+
+  // 查询维修报告单列表
+  namespace SearchReportList {
+    interface Params {
+      // 当前页，默认第一页,示例值(1)
+      pageIndex?: number,
+      // 每页显示条数，默认20,示例值(20)
+      pageSize?: number,
+      // 关键词
+      keyword?: string,
+      // 维修日期
+      date?: string,
+    }
+    export interface ResponseDataDetail<T> {
+      list: T[],
+      pages: number,
+      total: number,
+    }
+    type ResponseData = BaseResponse<ResponseDataDetail<GetReportDetailProps>>;
+  }
+
+  // 新增稽查回访
+  namespace AddVisitRecord {
+    interface Params {
+      // 委托id
+      commissionId: number,
+      // 创建人id
+      createBy: number,
+      // 创建人名称
+      createName: string,
+      // 维修日期
+      repairDate: string,
+      // 维修站
+      repairStation: string,
+    }
+
+    type ResponseData = BaseResponse;
+  }
+
+  // 查看稽查回访详情
+  namespace GetVisitRecordDetail {
+    interface Params {
+      // 维修单id
+      id: number
+    }
+
+    type ResponseData = BaseResponse<GetVisitRecordDetailProps>;
+  }
+
+  // 查看稽查回访列表
+  namespace SearchVisitRecordList {
+    interface Params {
+      pageIndex: number,
+      pageSize: number,
+      state: number
+    }
+
+    export interface ResponseDataDetail<T> {
+      list: T[],
+      pages: number,
+      total: number,
+    }
+    type ResponseData = BaseResponse<ResponseDataDetail<GetVisitRecordDetailProps>>;
   }
 }

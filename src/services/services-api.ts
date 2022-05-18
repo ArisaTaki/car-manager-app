@@ -25,12 +25,6 @@ export const ServicesApi = {
   UpdateUser: (params: ApiData.UpdateUser.Params):
   Promise<ApiData.UpdateUser.ResponseData> => post(ApiPaths.UpdateUser, params),
 
-  GetChartsData: ():
-  Promise<ApiData.ChartsDataApiMockName.ResponseData> => get(ApiPaths.getEchartsData),
-
-  GetChartsMoneyData: ():
-  Promise<ApiData.ChartsDataApiMockName.ResponseData> => get(ApiPaths.getChartsMoneyData),
-
   AddDelegation: (params: ApiData.AddDelegation.Params):
   Promise<ApiData.AddDelegation.ResponseData> => post(ApiPaths.addDelegation, params),
 
@@ -77,4 +71,21 @@ export const ServicesApi = {
   UpdatePartInfo: (params: ApiData.UpdatePartInfo.Params):
   Promise<ApiData.UpdatePartInfo.ResponseData> => post(ApiPaths.updatePart, params),
 
+  GetStat: (params: ApiData.GetStatInfo.Params):
+  Promise<ApiData.GetStatInfo.ResponseData> => post(ApiPaths.getStat, params),
+
+  AddReport: (params: ApiData.AddReport.Params):
+  Promise<ApiData.AddReport.ResponseData> => post(ApiPaths.addReport, params),
+
+  SearchReportList: (params:ApiData.SearchReportList.Params):
+  Promise<ApiData.SearchReportList.ResponseData> => post(ApiPaths.searchReports, params),
+
+  AddVisitRecord: (params: ApiData.AddVisitRecord.Params):
+  Promise<ApiData.AddVisitRecord.ResponseData> => post(ApiPaths.addVisitRecord, params),
+
+  GetVisitRecordDetail: (params: ApiData.GetVisitRecordDetail.Params):
+  Promise<ApiData.GetVisitRecordDetail.ResponseData> => post(ApiPaths.getVisitRecordDetail, params),
+
+  SearchVisitRecordList: (params: ApiData.SearchReportList.Params):
+  Promise<ApiData.SearchReportList.ResponseData> => post(ApiPaths.searchVisitRecordList, params),
 };

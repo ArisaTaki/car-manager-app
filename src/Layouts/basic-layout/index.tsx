@@ -74,7 +74,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = ({ children }) => {
           <i />
           <span className={cx({ collapsed })}>汽车维修平台</span>
         </div>
-        <Menu theme="light" mode="inline" defaultSelectedKeys={[history.location.pathname]}>
+        <Menu defaultOpenKeys={['sub1', 'sub2', 'sub4']} theme="light" mode="inline" defaultSelectedKeys={[history.location.pathname]}>
           <Menu.Item key={routerPath.Home} icon={<HomeOutlined />}>
             <Link to={routerPath.Home}>首页</Link>
           </Menu.Item>
@@ -105,11 +105,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = ({ children }) => {
               ) : null}
             </SubMenu>
           ) : null}
-          <SubMenu key="sub3" icon={<FundOutlined />} title="统计分析模块">
-            <Menu.Item key={routerPath.InfoReport} icon={<InsertRowAboveOutlined />}>
-              <Link to={routerPath.InfoReport}>信息报表</Link>
-            </Menu.Item>
-          </SubMenu>
           {userInfo?.type === 0 ? (
             <SubMenu key="sub4" icon={<SlidersOutlined />} title="系统管理模块">
               <Menu.Item key={routerPath.Quotation} icon={<DollarOutlined />}>

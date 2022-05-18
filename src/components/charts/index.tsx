@@ -28,7 +28,7 @@ const Charts: React.FC<ChartsLineProps> = ({
 
   useEffect(() => {
     renderEcharts();
-  }, []);
+  }, [renderEcharts]);
 
   return (
     <div id={chartID} className={cx('init-style', className)} style={styles}>

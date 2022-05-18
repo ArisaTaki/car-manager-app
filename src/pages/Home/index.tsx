@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { ECBasicOption } from 'echarts/types/dist/shared';
+import moment, { Moment } from 'moment';
+import { DatePicker } from 'antd';
 import styles from './styles.module.scss';
 import Charts from '@/components/charts';
 import { ServicesApi } from '@/services/services-api';
-import { ResponseDataCharts } from '@/services/entities';
+import { ResponseDataCharts, StatInfo } from '@/services/entities';
 
 const cx = classNames.bind(styles);
 
-const { GetChartsData, GetChartsMoneyData } = ServicesApi;
+const { GetStat } = ServicesApi;
 
-const formatData = (data: ResponseDataCharts): ECBasicOption => ({
+const { RangePicker } = DatePicker;
+
+const formatData = (type:string, data: ResponseDataCharts): ECBasicOption => ({
   title: {
     show: true,
-    text: '维修工单数',
+    text: type === 'bar' ? '近十日维修工单数' : '近十日维修收入额',
   },
   xAxis: {
     type: 'category',
@@ -41,10 +45,29 @@ const formatData = (data: ResponseDataCharts): ECBasicOption => ({
   series: [
     {
       data: data.result,
-      type: 'line',
+      type,
       smooth: true,
     },
   ],
+});
+
+// 限制当天之前的日期不可选
+
+const endDate = moment().locale('zh-cn').format('YYYY-MM-DD');
+const last10Days = moment().subtract('days', 10).format('YYYY-MM-DD');
+
+const disabledDate = (current: moment.Moment) => current && current > moment().subtract(0, 'days');// 当天之后的不可选，不包括当天
+
+// return current && current < moment().endOf(‘day');当天之前的不可选，包括当天
+
+const formatEchartsFixNumberDataType = (data: StatInfo[]): ResponseDataCharts => ({
+  result: data.map((item, index) => Number(item.repairCount)),
+  date: data.map((item, index) => moment(item.date).format('MM月DD日')),
+});
+
+const formatEchartsMoneyDataType = (data: StatInfo[]): ResponseDataCharts => ({
+  result: data.map((item, index) => Number(item.totalPrice)),
+  date: data.map((item, index) => moment(item.date).format('MM月DD日')),
 });
 
 const Home: React.FC = () => {
@@ -52,20 +75,34 @@ const Home: React.FC = () => {
   const [chartMoneyData, setChartMoneyData] = useState<ECBasicOption>();
 
   useEffect(() => {
-    GetChartsData().then((res) => {
-      setChartData(formatData(res.data));
-    });
-    GetChartsMoneyData().then(({ data }) => {
-      setChartMoneyData(formatData(data));
+    GetStat({ beginDate: last10Days, endDate }).then((res) => {
+      setChartData(formatData('bar', formatEchartsFixNumberDataType(res.data)));
+      setChartMoneyData(formatData('line', formatEchartsMoneyDataType(res.data)));
     });
   }, []);
   return (
-    <div className={cx('home-charts-list')}>
-      {chartData ? <Charts headerTitle="charts图" chartID="chartData" options={chartData!} styles={{ width: '48%', height: '70vh' }} />
-        : null}
-      {chartMoneyData ? <Charts headerTitle="charts图" chartID="chartMoneyData" options={chartMoneyData!} styles={{ width: '48%', height: '70vh' }} />
-        : null}
-    </div>
+    <>
+      <div className={cx('header-title')}>欢迎使用维修管理平台</div>
+      <span>选择时间范围（默认十天）</span>
+      <RangePicker
+        disabledDate={disabledDate}
+        style={{ marginBottom: 20 }}
+        onChange={(e, dateString) => {
+          const [begin, end] = dateString;
+          GetStat({ beginDate: begin, endDate: end }).then((res) => {
+            setChartData(formatData('bar', formatEchartsFixNumberDataType(res.data)));
+            setChartMoneyData(formatData('line', formatEchartsMoneyDataType(res.data)));
+          });
+        }}
+      />
+      <div className={cx('home-charts-list')}>
+        {chartData ? <Charts headerTitle="charts图" chartID="chartData" options={chartData} styles={{ width: '48%', height: '70vh' }} />
+          : null}
+        {chartMoneyData ? <Charts headerTitle="charts图" chartID="chartMoneyData" options={chartMoneyData} styles={{ width: '48%', height: '70vh' }} />
+          : null}
+      </div>
+
+    </>
   );
 };
 

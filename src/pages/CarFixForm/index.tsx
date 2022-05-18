@@ -76,19 +76,26 @@ const CarFixForm: React.FC = () => {
         <>
           <Space>
             {getUser().type === 3 || getUser().type === 0 ? (
-              <Dropdown overlay={switchRepairStation(item.state)} trigger={['click']}>
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    setListItemId(item.id);
-                  }}
-                >
-                  <Space>
-                    维修状态变更
-                    <DownOutlined />
-                  </Space>
-                </Button>
-              </Dropdown>
+              <>
+                <Dropdown overlay={switchRepairStation(item.state)} trigger={['click']}>
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      setListItemId(item.id);
+                    }}
+                  >
+                    <Space>
+                      维修状态变更
+                      <DownOutlined />
+                    </Space>
+                  </Button>
+                </Dropdown>
+                {item.state === 2 ? (
+                  <Button>
+                    生成服务报告
+                  </Button>
+                ) : null}
+              </>
             ) : null}
             <Button type="primary" onClick={() => { getRepairDetail(item); }}>详情</Button>
           </Space>
