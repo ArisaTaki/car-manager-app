@@ -224,7 +224,7 @@ export interface GetVisitRecordDetailProps {
   // 维修站
   repairStation: string,
   // 维修状态 0-待维修 1-维修中 2-已维修
-  state: number,
+  state?: number,
 }
 
 export namespace ApiData {
@@ -548,9 +548,9 @@ export namespace ApiData {
   // 查看稽查回访列表
   namespace SearchVisitRecordList {
     interface Params {
-      pageIndex: number,
-      pageSize: number,
-      state: number
+      pageIndex?: number,
+      pageSize?: number,
+      state?: number|null
     }
 
     export interface ResponseDataDetail<T> {
