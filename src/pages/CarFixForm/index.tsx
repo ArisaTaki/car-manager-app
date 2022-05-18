@@ -14,7 +14,7 @@ import { ServicesApi } from '@/services/services-api';
 import CarFixDetail from './components/CarFixDetail';
 
 const cx = classNames.bind(styles);
-const { UpdateRepairState } = ServicesApi;
+const { UpdateRepairState, AddVisitRecord } = ServicesApi;
 interface PaginationProps {
   pageSize?: number,
   current?: number,
@@ -34,6 +34,23 @@ const CarFixForm: React.FC = () => {
   const [delConfirmFlag, setDelConfirmFlag] = useState<boolean>(false);
   const [listItemId, setListItemId] = useState<number>();
   const [listItemState, setListItemState] = useState<string>();
+  const [recordCreating, setRecordCreating] = useState(false);
+
+  const addRecord = (item: RepairDetailInfo) => {
+    setRecordCreating(true);
+    AddVisitRecord({
+      commissionId: item.commissionId!,
+      createBy: getUser().userId,
+      createName: getUser().userName,
+      repairDate: item.repairDate,
+      repairStation: item.repairStation,
+    }).then((res) => {
+      setRecordCreating(false);
+      message.success(res.message);
+    }).catch((err) => {
+      setRecordCreating(false);
+    });
+  };
 
   const columns: ColumnsType<RepairDetailInfo> = [
     {
@@ -91,13 +108,15 @@ const CarFixForm: React.FC = () => {
                   </Button>
                 </Dropdown>
                 {item.state === 2 ? (
-                  <Button>
+                  <Button type="primary">
                     生成服务报告
                   </Button>
                 ) : null}
               </>
             ) : null}
-            <Button type="primary" onClick={() => { getRepairDetail(item); }}>详情</Button>
+            {getUser().type === 4 || getUser().type === 0
+              ? <Button type="primary" disabled={recordCreating} onClick={() => addRecord(item)}>生成稽查回访单</Button> : null}
+            <Button onClick={() => { getRepairDetail(item); }}>详情</Button>
           </Space>
         </>
       ),
