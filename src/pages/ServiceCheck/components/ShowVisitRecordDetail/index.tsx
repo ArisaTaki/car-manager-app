@@ -54,12 +54,12 @@ const ShowVisitRecordDetail: React.FC<VisitRecordDetailProps> = ({
       }}
     >
       <Spin spinning={pending} tip="loading...">
-      <Descriptions title="详细信息" layout="vertical" bordered={true}>
+        <Descriptions title="详细信息" layout="vertical" bordered>
           <Descriptions.Item label="创建人名称">{recordDetail?.createName}</Descriptions.Item>
           <Descriptions.Item label="创建时间">{moment(recordDetail?.createTime).format('YYYY年MM月DD日')}</Descriptions.Item>
           <Descriptions.Item label="维修日期">{moment(recordDetail?.repairDate).format('YYYY年MM月DD日')}</Descriptions.Item>
           <Descriptions.Item label="维修站">{recordDetail?.repairStation}</Descriptions.Item>
-          <Descriptions.Item label="维修状态">{switchState(recordDetail?.state!)}</Descriptions.Item>
+          <Descriptions.Item label="维修状态">{switchState(recordDetail?.state ?? -1)}</Descriptions.Item>
         </Descriptions>
       </Spin>
     </Modal>
