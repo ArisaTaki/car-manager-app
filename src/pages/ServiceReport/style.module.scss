@@ -1,27 +1,23 @@
 .buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-
-  .btns {
     display: flex;
-    align-items: center;
-
-    a {
-      margin-left: 10px;
-      width: 80px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    .btns {
+        display: flex;
+        align-items: center;
+        a {
+            margin-left: 10px;
+            width: 80px;
+        }
     }
-  }
 }
 
 .operate-buttons {
-  display: flex;
-
-  &.owner {
-    justify-content: center;
-  }
-
-  .del-button {
-    margin-left: 10px;
-  }
+    display: flex;
+    &.owner {
+        justify-content: center;
+    }
+    .del-button {
+        margin-left: 10px;
+    }
 }

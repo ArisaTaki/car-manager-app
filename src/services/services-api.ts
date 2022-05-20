@@ -86,6 +86,8 @@ export const ServicesApi = {
   GetVisitRecordDetail: (params: ApiData.GetVisitRecordDetail.Params):
   Promise<ApiData.GetVisitRecordDetail.ResponseData> => post(ApiPaths.getVisitRecordDetail, params),
 
-  SearchVisitRecordList: (params: ApiData.SearchReportList.Params):
-  Promise<ApiData.SearchReportList.ResponseData> => post(ApiPaths.searchVisitRecordList, params),
+  SearchVisitRecordList: (params: ApiData.SearchVisitRecordList.Params):
+  Promise<ApiData.SearchVisitRecordList.ResponseData> => post(
+    ApiPaths.searchVisitRecordList, params,
+  ),
 };
