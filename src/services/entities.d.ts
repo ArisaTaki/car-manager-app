@@ -195,17 +195,30 @@ export interface StatInfo {
 }
 
 export interface GetReportDetailProps {
-  id: number,
-  mockOne: string,
-  mockTwo: string,
-  mockThree: string,
-  mockFour: string,
-  mockFive: string,
-  mockSix: string,
-  mockSeven: string,
-  mockEight: string,
-  mockNine: string,
-  mockTen: string,
+  // 故障地址
+  bugAddress: string,
+  // 故障日期
+  bugDate: string,
+  // 购买日期
+  buyDate: string,
+  // 汽车型号
+  carModel: string,
+  // 用户邮箱
+  email: string,
+  // 用户电话
+  phone: string,
+  // 审核不通过的原因
+  reason: string,
+  // 维修日期
+  repairDate: string,
+  // 维修站
+  repairStation: string,
+  // 状态 0-待审核 1-审核通过 2-审核不通过
+  state: number,
+  // 总维修费用
+  totalPrice: number,
+  // 用户名称
+  userName: string,
 }
 
 export interface GetVisitRecordDetailProps {
@@ -492,6 +505,8 @@ export namespace ApiData {
     interface Params {
       // 维修单号
       id: number
+      createBy: number
+      createName: string
     }
 
     type ResponseData = BaseResponse;
@@ -550,7 +565,7 @@ export namespace ApiData {
     interface Params {
       pageIndex?: number,
       pageSize?: number,
-      state?: number|null
+      state?: number | null
     }
 
     export interface ResponseDataDetail<T> {

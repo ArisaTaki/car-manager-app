@@ -53,6 +53,8 @@ export const ApiPaths = {
   addReport: '/api/report/add',
   // 查询维修报告单
   searchReports: '/api/report/list',
+  // 更新报告单
+  updateReports: '/api/report/update-state',
   // 创建回访
   addVisitRecord: '/api/visit-record/add',
   // 获取回访详情

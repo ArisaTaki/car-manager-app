@@ -42,10 +42,11 @@ const ShowReportDetail: React.FC<ReportDetailProps> = ({
     >
       <Spin spinning={pending} tip="loading...">
         <Descriptions title="详细信息" layout="vertical" bordered>
-          <Descriptions.Item label="示例id">{recordDetail?.id}</Descriptions.Item>
-          <Descriptions.Item label="mock1">{recordDetail?.mockOne}</Descriptions.Item>
-          <Descriptions.Item label="mock2">{recordDetail?.mockTwo}</Descriptions.Item>
-          <Descriptions.Item label="mock3">{recordDetail?.mockThree}</Descriptions.Item>
+          <Descriptions.Item label="维修站">{recordDetail?.repairStation}</Descriptions.Item>
+          <Descriptions.Item label="维修日期">{recordDetail?.repairDate}</Descriptions.Item>
+          <Descriptions.Item label="汽车型号">{recordDetail?.carModel}</Descriptions.Item>
+          <Descriptions.Item label="车主电话">{recordDetail?.phone}</Descriptions.Item>
+          { /*  TODO 字段已经出来了，有用信息都展示一下吧 */}
         </Descriptions>
       </Spin>
     </Modal>
