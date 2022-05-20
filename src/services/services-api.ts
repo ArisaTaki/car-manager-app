@@ -80,7 +80,7 @@ export const ServicesApi = {
   SearchReportList: (params:ApiData.SearchReportList.Params):
   Promise<ApiData.SearchReportList.ResponseData> => post(ApiPaths.searchReports, params),
 
-  UpdateReportList: (params: ApiData.UpdateReportStatus.Params):
+  UpdateReportState: (params: ApiData.UpdateReportStatus.Params):
   Promise<ApiData.UpdateReportStatus.ResponseData> => post(ApiPaths.updateReports, params),
 
   AddVisitRecord: (params: ApiData.AddVisitRecord.Params):

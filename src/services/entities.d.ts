@@ -195,6 +195,8 @@ export interface StatInfo {
 }
 
 export interface GetReportDetailProps {
+  //id
+  id: number,
   // 故障地址
   bugAddress: string,
   // 故障日期

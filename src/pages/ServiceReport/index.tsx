@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import {
-  Button, PageHeader, Spin, Table,
+  Button, Input, Modal, PageHeader, Select, Spin, Table,
 } from 'antd';
 import { DeleteFilled, LoadingOutlined } from '@ant-design/icons';
 import Search from 'antd/es/input/Search';
 import { ColumnsType } from 'antd/lib/table';
 import { TableAction, TablePaginationConfig } from 'antd/lib/table/interface';
+import moment from 'moment';
 import { ServicesApi } from '@/services/services-api';
 import styles from './style.module.scss';
 import { GetReportDetailProps } from '@/services/entities';
 import { getUser } from '@/utils/storageUtils';
 import { moveToSystemError403Page } from '@/helpers/history';
 import ShowReportDetail from './components/ShowReportDetail';
+import TagStatus from './components/TagStatus';
 
 const cx = classNames.bind(styles);
 
 const {
-  SearchReportList,
+  SearchReportList, UpdateReportState,
 } = ServicesApi;
 interface PaginationProps {
   pageSize: number,
@@ -29,10 +31,14 @@ const ServiceReport: React.FC = () => {
   const [pageLoading, setLoading] = useState(false);
   const [reportList, setRepoetList] = useState<GetReportDetailProps[]>([]);
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const [changeStateModal, setChangeStateModal] = useState(false);
   const [keyword, setKeyWord] = useState('');
   const [paginationData, setPaginationData] = useState<PaginationProps>();
   const [chooseIndex, setChooseIndexData] = useState<GetReportDetailProps>();
   const [getDataLoading, setGetDataLoading] = useState(false);
+  const [showTextarea, setShowTextArea] = useState(false);
+  const [checkStatus, setCheckStatus] = useState(1);
+  const [notPassReason, setNotPassReason] = useState('');
 
   const getReportMethod = () => {
     setLoading(true);
@@ -46,7 +52,16 @@ const ServiceReport: React.FC = () => {
       });
     });
   };
-
+  const onChangeState = () => {
+    UpdateReportState({
+      id: chooseIndex?.id ?? -1, state: checkStatus!, reason: notPassReason,
+    }).then((res) => {
+      setChangeStateModal(false);
+      setCheckStatus(1);
+      setNotPassReason('');
+      getReportMethod();
+    });
+  };
   useEffect(() => {
     getReportMethod();
     if (getUser().type !== 0 && getUser().type !== 4) {
@@ -112,24 +127,38 @@ const ServiceReport: React.FC = () => {
   };
   const columns: ColumnsType<GetReportDetailProps> = [
     {
-      title: 'id',
-      dataIndex: 'id',
-      key: 'id',
+      title: '故障地址',
+      dataIndex: 'bugAddress',
+      key: 'bugAddress',
     },
     {
-      title: 'mock1',
-      key: 'mockOne',
-      dataIndex: 'mockOne',
+      title: '故障日期',
+      key: 'bugDate',
+      dataIndex: 'bugDate',
+      render: (text) => (
+        <span>{moment(text).format('YYYY年MM月DD日')}</span>
+      ),
     },
     {
-      title: 'mock2',
-      key: 'mockTwo',
-      dataIndex: 'mockTwo',
+      title: '购买日期',
+      key: 'buyDate',
+      dataIndex: 'buyDate',
+      render: (text) => (
+        <span>{moment(text).format('YYYY年MM月DD日')}</span>
+      ),
     },
     {
-      title: 'mock3',
-      key: 'mockThree',
-      dataIndex: 'mockThree',
+      title: '状态',
+      key: 'state',
+      dataIndex: 'state',
+      render: (text) => (
+        <TagStatus number={text} />
+      ),
+    },
+    {
+      title: '汽车型号',
+      key: 'carModel',
+      dataIndex: 'carModel',
     },
     {
       title: '操作',
@@ -140,15 +169,36 @@ const ServiceReport: React.FC = () => {
           <Button
             disabled={getDataLoading}
             type="primary"
+            style={{ marginRight: '10px' }}
             onClick={() => {
               setChooseIndexData(item);
               setShowDetailModal(true);
             }}
           >
-            查看报告详情
+            查看详情
+          </Button>
+          <Button
+            disabled={getDataLoading}
+            type="primary"
+            onClick={() => {
+              setChooseIndexData(item);
+              setChangeStateModal(true);
+            }}
+          >
+            变更状态
           </Button>
         </div>
       ),
+    },
+  ];
+  const stateSelectObj: { value: string, key: number }[] = [
+    {
+      value: '审核通过',
+      key: 1,
+    },
+    {
+      value: '审核未通过',
+      key: 2,
     },
   ];
   const paginationProps = {
@@ -169,6 +219,38 @@ const ServiceReport: React.FC = () => {
           data={chooseIndex}
         />
       ) : null}
+      <Modal
+        title="更改审核状态"
+        maskClosable={false}
+        onCancel={() => { setChangeStateModal(false); }}
+        visible={changeStateModal}
+        onOk={onChangeState}
+      >
+        <div>
+          <Select
+            defaultValue={String(checkStatus)}
+            style={{ width: 120, margin: '0 8px' }}
+            onChange={(e) => {
+              setCheckStatus(Number(e));
+              setShowTextArea(e === '2');
+            }}
+          >
+            {stateSelectObj.map((item) => (
+              <Select.Option key={item.key}>{item.value}</Select.Option>
+            ))}
+          </Select>
+          {showTextarea ? (
+            <>
+              <div style={{ margin: '0 8px', fontWeight: 'bold', marginTop: 10 }}>不通过原因</div>
+              <Input.TextArea
+                onChange={(e) => { setNotPassReason(e.target.value); }}
+                style={{ margin: '0 8px' }}
+                value={notPassReason}
+              />
+            </>
+          ) : null}
+        </div>
+      </Modal>
       <Spin spinning={pageLoading} indicator={loadingIcon()}>
         <div className={cx('header')}>
           <PageHeader

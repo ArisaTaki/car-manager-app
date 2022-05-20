@@ -1,0 +1,24 @@
+.buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    .btns {
+        display: flex;
+        align-items: center;
+        a {
+            margin-left: 10px;
+            width: 80px;
+        }
+    }
+}
+
+.operate-buttons {
+    display: flex;
+    &.owner {
+        justify-content: center;
+    }
+    .del-button {
+        margin-left: 10px;
+    }
+}
