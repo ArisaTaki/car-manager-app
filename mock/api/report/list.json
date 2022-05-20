@@ -1,8 +1,9 @@
 {
-  "code": "",
+  "code": "200",
   "data": {
     "list": [
       {
+        "id": 1,
         "bugAddress": 1,
         "bugDate": "2022-05-17T16:00:00.000+00:00",
         "buyDate": "2022-05-17T16:00:00.000+00:00",
@@ -16,6 +17,7 @@
         "totalPrice": 2222,
         "userName": "string"
       },{
+        "id": 2,
         "bugAddress": 2,
         "bugDate": "2022-05-17T16:00:00.000+00:00",
         "buyDate": "2022-05-17T16:00:00.000+00:00",
@@ -29,6 +31,7 @@
         "totalPrice": 2222,
         "userName": "string"
       },{
+        "id": 3,
         "bugAddress": 3,
         "bugDate": "2022-05-17T16:00:00.000+00:00",
         "buyDate": "2022-05-17T16:00:00.000+00:00",

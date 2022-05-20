@@ -14,7 +14,7 @@ import { ServicesApi } from '@/services/services-api';
 import CarFixDetail from './components/CarFixDetail';
 
 const cx = classNames.bind(styles);
-const { UpdateRepairState, AddVisitRecord } = ServicesApi;
+const { UpdateRepairState, AddVisitRecord, AddReport } = ServicesApi;
 interface PaginationProps {
   pageSize?: number,
   current?: number,
@@ -35,6 +35,14 @@ const CarFixForm: React.FC = () => {
   const [listItemId, setListItemId] = useState<number>();
   const [listItemState, setListItemState] = useState<string>();
   const [recordCreating, setRecordCreating] = useState(false);
+
+  const addReportInfo = (item: RepairDetailInfo) => {
+    AddReport(
+      { createBy: getUser().userId, createName: getUser().userName, id: item.id },
+    ).then((res) => {
+      message.success(res.message);
+    });
+  };
 
   const addRecord = (item: RepairDetailInfo) => {
     setRecordCreating(true);
@@ -108,7 +116,7 @@ const CarFixForm: React.FC = () => {
                   </Button>
                 </Dropdown>
                 {item.state === 2 ? (
-                  <Button type="primary">
+                  <Button type="primary" onClick={() => addReportInfo(item)}>
                     生成服务报告
                   </Button>
                 ) : null}

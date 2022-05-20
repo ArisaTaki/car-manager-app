@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import {
-  Button, Input, Modal, PageHeader, Select, Spin, Table,
+  Button, DatePicker, Input, Modal, PageHeader, Select, Spin, Table,
 } from 'antd';
 import { DeleteFilled, LoadingOutlined } from '@ant-design/icons';
 import Search from 'antd/es/input/Search';
@@ -37,12 +37,15 @@ const ServiceReport: React.FC = () => {
   const [chooseIndex, setChooseIndexData] = useState<GetReportDetailProps>();
   const [getDataLoading, setGetDataLoading] = useState(false);
   const [showTextarea, setShowTextArea] = useState(false);
+  const [chooseDate, setChooseDate] = useState<string | undefined>();
   const [checkStatus, setCheckStatus] = useState(1);
   const [notPassReason, setNotPassReason] = useState('');
 
   const getReportMethod = () => {
     setLoading(true);
-    SearchReportList({ pageIndex: 1, pageSize: 10 }).then((res) => {
+    SearchReportList({
+      pageIndex: 1, pageSize: 10, date: '', keyword: '',
+    }).then((res) => {
       setLoading(false);
       setRepoetList(res.data.list);
       setPaginationData({
@@ -74,8 +77,8 @@ const ServiceReport: React.FC = () => {
       setLoading(true);
       SearchReportList(
         {
-          date: '',
-          keyword: '',
+          date: chooseDate,
+          keyword,
           pageIndex: paginationData?.current,
           pageSize: paginationData?.pageSize,
         },
@@ -115,6 +118,7 @@ const ServiceReport: React.FC = () => {
   const resetAllData = () => {
     setLoading(true);
     setKeyWord('');
+    setChooseDate(undefined);
     setPaginationData({ ...paginationData, current: 1, pageSize: 10 });
     getReportMethod();
   };
@@ -261,6 +265,7 @@ const ServiceReport: React.FC = () => {
           <div className={cx('buttons')}>
             <div className={cx('btns')}>
               <Search
+                style={{ marginRight: 10 }}
                 placeholder="输入关键词"
                 onSearch={onSearch}
                 onChange={(e) => {
@@ -268,6 +273,30 @@ const ServiceReport: React.FC = () => {
                 }}
                 enterButton
                 value={keyword}
+              />
+              <DatePicker
+                value={chooseDate ? moment(chooseDate) : undefined}
+                style={{ width: 150 }}
+                placeholder="选择日期"
+                onChange={(e) => {
+                  SearchReportList(
+                    {
+                      date: moment(e).format('YYYY-MM-DD'),
+                      keyword,
+                      pageIndex: paginationData?.current,
+                      pageSize: paginationData?.pageSize,
+                    },
+                  ).then((res) => {
+                    setRepoetList(res.data.list);
+                    setLoading(false);
+                    setPaginationData({
+                      pageSize: 10,
+                      current: 1,
+                      total: res.data.total,
+                    });
+                  });
+                  setChooseDate(moment(e).format('YYYY-MM-DD'));
+                }}
               />
             </div>
             <div style={{ display: 'flex' }}>

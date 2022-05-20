@@ -17,7 +17,7 @@ const { RangePicker } = DatePicker;
 const formatData = (type:string, data: ResponseDataCharts): ECBasicOption => ({
   title: {
     show: true,
-    text: type === 'bar' ? '近十日维修工单数' : '近十日维修收入额',
+    text: type === 'bar' ? '近五日维修工单数' : '近五日维修收入额',
   },
   xAxis: {
     type: 'category',
@@ -54,7 +54,7 @@ const formatData = (type:string, data: ResponseDataCharts): ECBasicOption => ({
 // 限制当天之前的日期不可选
 
 const endDate = moment().locale('zh-cn').format('YYYY-MM-DD');
-const last10Days = moment().subtract('days', 10).format('YYYY-MM-DD');
+const last5Days = moment().subtract('days', 5).format('YYYY-MM-DD');
 
 const disabledDate = (current: moment.Moment) => current && current > moment().subtract(0, 'days');// 当天之后的不可选，不包括当天
 
@@ -75,7 +75,7 @@ const Home: React.FC = () => {
   const [chartMoneyData, setChartMoneyData] = useState<ECBasicOption>();
 
   useEffect(() => {
-    GetStat({ beginDate: last10Days, endDate }).then((res) => {
+    GetStat({ beginDate: last5Days, endDate }).then((res) => {
       setChartData(formatData('bar', formatEchartsFixNumberDataType(res.data)));
       setChartMoneyData(formatData('line', formatEchartsMoneyDataType(res.data)));
     });
@@ -83,7 +83,7 @@ const Home: React.FC = () => {
   return (
     <>
       <div className={cx('header-title')}>欢迎使用维修管理平台</div>
-      <span>选择时间范围（默认十天）</span>
+      <span>选择时间范围（默认五天）</span>
       <RangePicker
         disabledDate={disabledDate}
         style={{ marginBottom: 20 }}

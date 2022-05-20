@@ -104,18 +104,6 @@ const QualityClaims: React.FC = () => {
             className={cx('page-header')}
             title="质量索赔列表"
           />
-          <div className={cx('buttons')}>
-            <div style={{ display: 'flex' }}>
-              <Button
-                type="default"
-                icon={<DeleteFilled />}
-                onClick={resetAllData}
-                disabled={paginationData?.current === 1 && paginationData.pageSize === 10}
-              >
-                重置
-              </Button>
-            </div>
-          </div>
           <Table
             columns={columns}
             dataSource={suoPeiList}
