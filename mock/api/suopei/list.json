@@ -1,0 +1,29 @@
+{
+  "code": "200",
+  "data": {
+    "list": [
+      {
+        "id": 1,
+        "money": 110,
+        "name": "零件一",
+        "percentage": "60%"
+      },
+      {
+        "id": 2,
+        "money": 220,
+        "name": "零件二",
+        "percentage": "70%"
+      },
+      {
+        "id": 3,
+        "money": 330,
+        "name": "零件三",
+        "percentage": "40%"
+      }
+    ],
+    "pages": 0,
+    "total": 0
+  },
+  "message": "",
+  "successful": true
+}

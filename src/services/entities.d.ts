@@ -221,6 +221,17 @@ export interface GetReportDetailProps {
   userName: string,
 }
 
+export interface SuoPeiProps {
+  // 零件id
+  id: number,
+  // 金额
+  money: number,
+  // 名称
+  name: string,
+  // 赔付比例
+  percentage: string,
+}
+
 export interface GetVisitRecordDetailProps {
   // 委托id
   commissionId: number,
@@ -574,5 +585,28 @@ export namespace ApiData {
       total: number,
     }
     type ResponseData = BaseResponse<ResponseDataDetail<GetVisitRecordDetailProps>>;
+  }
+
+  // 更新维修报告单
+  namespace UpdateReportStatus {
+    interface Params {
+      id: number,
+      // 原因
+      reason: string,
+      // 状态
+      state: number,
+    }
+
+    type ResponseData = BaseResponse;
+  }
+
+  // 索赔列表
+  namespace SearchSuoPeiList {
+    export interface ResponseDataDetail<T> {
+      list: T[],
+      pages: number,
+      total: number,
+    }
+    type ResponseData = BaseResponse<ResponseDataDetail<SuoPeiProps>>;
   }
 }

@@ -80,6 +80,9 @@ export const ServicesApi = {
   SearchReportList: (params:ApiData.SearchReportList.Params):
   Promise<ApiData.SearchReportList.ResponseData> => post(ApiPaths.searchReports, params),
 
+  UpdateReportList: (params: ApiData.UpdateReportStatus.Params):
+  Promise<ApiData.UpdateReportStatus.ResponseData> => post(ApiPaths.updateReports, params),
+
   AddVisitRecord: (params: ApiData.AddVisitRecord.Params):
   Promise<ApiData.AddVisitRecord.ResponseData> => post(ApiPaths.addVisitRecord, params),
 
@@ -90,4 +93,7 @@ export const ServicesApi = {
   Promise<ApiData.SearchVisitRecordList.ResponseData> => post(
     ApiPaths.searchVisitRecordList, params,
   ),
+
+  SearchSuoPeiList: ():
+  Promise<ApiData.SearchSuoPeiList.ResponseData> => post(ApiPaths.searchSuoPeiList),
 };
