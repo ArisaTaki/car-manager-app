@@ -54,9 +54,7 @@ const AddFixForm: React.FC<DelegationAddOrEditProps> = ({
     AddRepair({
       ...values, createBy, createName, commissionId, partList: partListApi,
     }).then((res) => {
-      if (res.code === '500') {
-        message.error(res.message);
-      } else {
+      if (res.code !== '500') {
         message.success(res.message);
       }
       setPending(false);
