@@ -15,7 +15,7 @@ import moment from 'moment';
 import history from '@/utils/getHistory';
 import styles from './style.module.scss';
 import { ServicesApi } from '@/services/services-api';
-import { DelegationListItem, UpdateDelegationInfoByMoment } from '@/services/entities';
+import { DelegationListItem, GetPartDetailProps, UpdateDelegationInfoByMoment } from '@/services/entities';
 import { getUser } from '@/utils/storageUtils';
 import { formatServiceState } from '@/utils/ServiceState';
 import TagStatus from '@/pages/ServiceDelegation/components/TagStatus';
@@ -25,7 +25,7 @@ import AddFixForm from '@/pages/ServiceDelegation/components/AddFixForm';
 const cx = classNames.bind(styles);
 
 const {
-  SearchDelegations, DeleteDelegation, GetDelegationDetailInfo, CheckDelegation,
+  SearchDelegations, DeleteDelegation, GetDelegationDetailInfo, CheckDelegation, SearchPartList,
 } = ServicesApi;
 
 interface PaginationProps {
@@ -62,6 +62,7 @@ const ServiceDelegation: React.FC = () => {
   const [checkStatus, setCheckStatus] = useState(1);
   const [getDataLoading, setGetDataLoading] = useState(false);
   const [showFixFormFlag, setShowFixFormFlag] = useState(false);
+  const [partList, setPartList] = useState<GetPartDetailProps[]>([]);
 
   const onSearch = (value: string) => {
     if (value) {
@@ -100,6 +101,9 @@ const ServiceDelegation: React.FC = () => {
   };
 
   useEffect(() => {
+    SearchPartList({ pageSize: 100, pageIndex: 1 }).then((res) => {
+      setPartList(res.data.list);
+    });
     getDelegationListMethod();
   }, []);
 
@@ -333,6 +337,7 @@ const ServiceDelegation: React.FC = () => {
       ) : null}
       {showFixFormFlag ? (
         <AddFixForm
+          partList={partList}
           commissionId={chooseIndex!}
           createBy={getUser().userId}
           createName={getUser().userName}

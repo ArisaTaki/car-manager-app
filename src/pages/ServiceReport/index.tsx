@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import {
-  Button, DatePicker, Input, Modal, PageHeader, Select, Spin, Table,
+  Button, DatePicker, Input, message, Modal, PageHeader, Select, Spin, Table,
 } from 'antd';
 import { DeleteFilled, LoadingOutlined } from '@ant-design/icons';
 import Search from 'antd/es/input/Search';
@@ -10,7 +10,7 @@ import { TableAction, TablePaginationConfig } from 'antd/lib/table/interface';
 import moment from 'moment';
 import { ServicesApi } from '@/services/services-api';
 import styles from './style.module.scss';
-import { GetReportDetailProps } from '@/services/entities';
+import { GetReportDetailProps, RepairDetailInfo } from '@/services/entities';
 import { getUser } from '@/utils/storageUtils';
 import { moveToSystemError403Page } from '@/helpers/history';
 import ShowReportDetail from './components/ShowReportDetail';
@@ -19,7 +19,7 @@ import TagStatus from './components/TagStatus';
 const cx = classNames.bind(styles);
 
 const {
-  SearchReportList, UpdateReportState,
+  SearchReportList, UpdateReportState, AddVisitRecord,
 } = ServicesApi;
 interface PaginationProps {
   pageSize: number,
@@ -40,6 +40,11 @@ const ServiceReport: React.FC = () => {
   const [chooseDate, setChooseDate] = useState<string | undefined>();
   const [checkStatus, setCheckStatus] = useState(1);
   const [notPassReason, setNotPassReason] = useState('');
+  const [recordCreating, setRecordCreating] = useState(false);
+  const [description, setDescription] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [showRecordAdd, setShowRecordAdd] = useState(false);
+  const itemRef = useRef<GetReportDetailProps>();
 
   const getReportMethod = () => {
     setLoading(true);
@@ -65,6 +70,24 @@ const ServiceReport: React.FC = () => {
       getReportMethod();
     });
   };
+
+  const addRecord = (item: GetReportDetailProps) => {
+    setRecordCreating(true);
+    AddVisitRecord({
+      reportId: item.id!,
+      createBy: getUser().userId,
+      createName: getUser().userName,
+      customerName,
+      description,
+    }).then((res) => {
+      setShowRecordAdd(false);
+      setRecordCreating(false);
+      message.success(res.message);
+    }).catch((err) => {
+      setRecordCreating(false);
+    });
+  };
+
   useEffect(() => {
     getReportMethod();
     if (getUser().type !== 0 && getUser().type !== 4) {
@@ -191,6 +214,20 @@ const ServiceReport: React.FC = () => {
           >
             变更状态
           </Button>
+          {getUser().type === 4 || getUser().type === 0
+            ? (
+              <Button
+                style={{ marginLeft: 10 }}
+                type="primary"
+                disabled={recordCreating}
+                onClick={() => {
+                  setShowRecordAdd(true);
+                  itemRef.current = item;
+                }}
+              >
+                生成稽查回访单
+              </Button>
+            ) : null}
         </div>
       ),
     },
@@ -223,6 +260,31 @@ const ServiceReport: React.FC = () => {
           data={chooseIndex}
         />
       ) : null}
+      <Modal
+        title="创建回访单"
+        maskClosable={false}
+        onCancel={() => { setShowRecordAdd(false); }}
+        visible={showRecordAdd}
+        onOk={() => addRecord(itemRef.current!)}
+      >
+        <div>
+          <Input
+            placeholder="请输入顾客名称"
+            value={customerName}
+            onChange={(e) => {
+              setCustomerName(e.target.value);
+            }}
+          />
+          <>
+            <div style={{ margin: '0 8px', fontWeight: 'bold', marginTop: 10 }}>描述</div>
+            <Input.TextArea
+              onChange={(e) => { setDescription(e.target.value); }}
+              style={{ margin: '0 8px' }}
+              value={description}
+            />
+          </>
+        </div>
+      </Modal>
       <Modal
         title="更改审核状态"
         maskClosable={false}
@@ -278,6 +340,7 @@ const ServiceReport: React.FC = () => {
                 value={chooseDate ? moment(chooseDate) : undefined}
                 style={{ width: 150 }}
                 placeholder="选择日期"
+                allowClear={false}
                 onChange={(e) => {
                   SearchReportList(
                     {

@@ -29,7 +29,6 @@ const ServiceCheck: React.FC = () => {
   const [pageLoading, setLoading] = useState(false);
   const [visitRecordList, setVisitRecordList] = useState<GetVisitRecordDetailProps[]>([]);
   const [showDetailModal, setShowDetailModal] = useState(false);
-  const [keyword, setKeyWord] = useState('');
   const [paginationData, setPaginationData] = useState<PaginationProps>();
   const [chooseIndex, setChooseIndexData] = useState<GetVisitRecordDetailProps>();
   const [getDataLoading, setGetDataLoading] = useState(false);
@@ -53,44 +52,11 @@ const ServiceCheck: React.FC = () => {
       moveToSystemError403Page();
     }
   }, []);
-  const reverseState = (text: string) => {
-    switch (text) {
-      case '待维修':
-        return 0;
-      case '维修站':
-        return 1;
-      case '已维修':
-        return 2;
-      default:
-        return null;
-    }
-  };
-  const onSearch = (value: string) => {
-    if (value) {
-      setKeyWord(value);
-      setLoading(true);
-      SearchVisitRecordList(
-        {
-          state: reverseState(value),
-          pageIndex: paginationData?.current,
-          pageSize: paginationData?.pageSize,
-        },
-      ).then((res) => {
-        setVisitRecordList(res.data.list);
-        setLoading(false);
-        setPaginationData({
-          pageSize: 10,
-          current: 1,
-          total: res.data.total,
-        });
-      });
-    }
-  };
-  const paginationChangeEvent = (page: number, pageSize: number, state?: number) => {
+  const paginationChangeEvent = (page: number, pageSize: number) => {
     setLoading(true);
     setVisitRecordList([]);
     SearchVisitRecordList({
-      pageSize, pageIndex: page, state,
+      pageSize, pageIndex: page,
     })
       .then((res) => {
         setLoading(false);
@@ -110,7 +76,6 @@ const ServiceCheck: React.FC = () => {
   };
   const resetAllData = () => {
     setLoading(true);
-    setKeyWord('');
     setPaginationData({ ...paginationData, current: 1, pageSize: 10 });
     getVisitRecordMethod();
   };
@@ -121,36 +86,26 @@ const ServiceCheck: React.FC = () => {
       resetAllData();
     }
   };
-  const switchState = (value: number) => {
-    switch (value) {
-      case 0:
-        return '待维修';
-      case 1:
-        return '维修站';
-      case 2:
-        return '已维修';
-      default:
-        return '';
-    }
-  };
   const columns: ColumnsType<GetVisitRecordDetailProps> = [
     {
-      title: '创建者',
-      dataIndex: 'createName',
+      title: '顾客',
+      dataIndex: 'customerName',
+      key: 'customerName',
+    },
+    {
+      title: '描述',
+      key: 'description',
+      dataIndex: 'description',
+    },
+    {
+      title: '创建人名称',
       key: 'createName',
+      dataIndex: 'createName',
     },
     {
-      title: '维修站',
-      key: 'repairStation',
-      dataIndex: 'repairStation',
-    },
-    {
-      title: '维修状态',
-      key: 'state',
-      dataIndex: 'state',
-      render: (text) => (
-        <>{switchState(text)}</>
-      ),
+      title: '创建人时间',
+      key: 'createTime',
+      dataIndex: 'createTime',
     },
     {
       title: '操作',
@@ -202,29 +157,6 @@ const ServiceCheck: React.FC = () => {
             className={cx('page-header')}
             title="服务稽查列表"
           />
-          <div className={cx('buttons')}>
-            <div className={cx('btns')}>
-              <Search
-                placeholder="输入维修状态"
-                onSearch={onSearch}
-                onChange={(e) => {
-                  setKeyWord(e.target.value);
-                }}
-                enterButton
-                value={keyword}
-              />
-            </div>
-            <div style={{ display: 'flex' }}>
-              <Button
-                type="default"
-                icon={<DeleteFilled />}
-                onClick={resetAllData}
-                disabled={keyword === '' && paginationData?.current === 1 && paginationData.pageSize === 10}
-              >
-                重置
-              </Button>
-            </div>
-          </div>
           <Table
             columns={columns}
             dataSource={visitRecordList}

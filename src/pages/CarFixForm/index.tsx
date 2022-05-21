@@ -44,22 +44,6 @@ const CarFixForm: React.FC = () => {
     });
   };
 
-  const addRecord = (item: RepairDetailInfo) => {
-    setRecordCreating(true);
-    AddVisitRecord({
-      commissionId: item.commissionId!,
-      createBy: getUser().userId,
-      createName: getUser().userName,
-      repairDate: item.repairDate,
-      repairStation: item.repairStation,
-    }).then((res) => {
-      setRecordCreating(false);
-      message.success(res.message);
-    }).catch((err) => {
-      setRecordCreating(false);
-    });
-  };
-
   const columns: ColumnsType<RepairDetailInfo> = [
     {
       title: '创建人名称',
@@ -122,8 +106,6 @@ const CarFixForm: React.FC = () => {
                 ) : null}
               </>
             ) : null}
-            {getUser().type === 4 || getUser().type === 0
-              ? <Button type="primary" disabled={recordCreating} onClick={() => addRecord(item)}>生成稽查回访单</Button> : null}
             <Button onClick={() => { getRepairDetail(item); }}>详情</Button>
           </Space>
         </>

@@ -72,7 +72,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = ({ children }) => {
       <Sider trigger={null} collapsible collapsed={collapsed} className={cx('aside')}>
         <div className={cx('logo')}>
           <i />
-          <span className={cx({ collapsed })}>汽车维修平台</span>
+          <span className={cx({ collapsed })}>易车享汽车售后管理</span>
         </div>
         <Menu defaultOpenKeys={['sub1', 'sub2', 'sub4']} theme="light" mode="inline" defaultSelectedKeys={[history.location.pathname]}>
           <Menu.Item key={routerPath.Home} icon={<HomeOutlined />}>

@@ -6,7 +6,6 @@ import {
 import moment from 'moment';
 import styles from './style.module.scss';
 import { GetVisitRecordDetailProps, UserTokenKeyInfo } from '@/services/entities';
-import { ServicesApi } from '@/services/services-api';
 import { getUser } from '@/utils/storageUtils';
 
 const cx = classNames.bind(styles);
@@ -57,9 +56,8 @@ const ShowVisitRecordDetail: React.FC<VisitRecordDetailProps> = ({
         <Descriptions title="详细信息" layout="vertical" bordered>
           <Descriptions.Item label="创建人名称">{recordDetail?.createName}</Descriptions.Item>
           <Descriptions.Item label="创建时间">{moment(recordDetail?.createTime).format('YYYY年MM月DD日')}</Descriptions.Item>
-          <Descriptions.Item label="维修日期">{moment(recordDetail?.repairDate).format('YYYY年MM月DD日')}</Descriptions.Item>
-          <Descriptions.Item label="维修站">{recordDetail?.repairStation}</Descriptions.Item>
-          <Descriptions.Item label="维修状态">{switchState(recordDetail?.state ?? -1)}</Descriptions.Item>
+          <Descriptions.Item label="描述">{recordDetail?.description}</Descriptions.Item>
+          <Descriptions.Item label="顾客">{recordDetail?.customerName}</Descriptions.Item>
         </Descriptions>
       </Spin>
     </Modal>

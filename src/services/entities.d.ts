@@ -140,6 +140,11 @@ export interface RepairInfoBase {
   repairDate: string,
   // 维修站
   repairStation: string,
+  // 维修部分
+  partList?: {
+    count: number,
+    partId: number,
+  }[]
 }
 export interface UpdateDelegationInfo extends DelegationInfoBase {
   // 更新人id
@@ -195,7 +200,7 @@ export interface StatInfo {
 }
 
 export interface GetReportDetailProps {
-  //id
+  // id
   id: number,
   // 故障地址
   bugAddress: string,
@@ -234,23 +239,26 @@ export interface SuoPeiProps {
   percentage: string,
 }
 
+export interface GetPartDetailProps extends PartInfoBase {
+  // 创建时间
+  createTime: string
+  // 零件id
+  id: number
+}
+
 export interface GetVisitRecordDetailProps {
-  // 委托id
-  commissionId: number,
-  // 创建人id
-  createBy: number,
+  // 报告单id
+  reportId: number,
+  // 顾客姓名
+  customerName: string,
+  // 描述
+  description: string,
   // 创建人名称
   createName: string,
   // 创建时间
   createTime: string,
-  // 维修单id
+  // 回访id
   id: number,
-  // 维修日期
-  repairDate: string,
-  // 维修站
-  repairStation: string,
-  // 维修状态 0-待维修 1-维修中 2-已维修
-  state?: number,
 }
 
 export namespace ApiData {
@@ -456,12 +464,7 @@ export namespace ApiData {
     interface Params {
       id: number
     }
-    export interface GetPartDetailProps extends PartInfoBase {
-      // 创建时间
-      createTime: string
-      // 零件id
-      id: number
-    }
+
     type ResponseData = BaseResponse<GetPartDetailProps>;
   }
 
@@ -549,15 +552,15 @@ export namespace ApiData {
   namespace AddVisitRecord {
     interface Params {
       // 委托id
-      commissionId: number,
+      reportId: number,
       // 创建人id
       createBy: number,
       // 创建人名称
       createName: string,
-      // 维修日期
-      repairDate: string,
-      // 维修站
-      repairStation: string,
+      // 顾客
+      customerName: string,
+      // 描述
+      description: string,
     }
 
     type ResponseData = BaseResponse;
@@ -578,7 +581,6 @@ export namespace ApiData {
     interface Params {
       pageIndex?: number,
       pageSize?: number,
-      state?: number | null
     }
 
     export interface ResponseDataDetail<T> {
